@@ -1,0 +1,37 @@
+{
+  "author": "sparrowhawk-ea",
+  "bugs": {
+    "url": "https://github.com/sparrowhawk-ea/fmmp-ng/issues"
+  },
+  "description": "Form Minimap Angular",
+  "files": [
+    "**"
+  ],
+  "homepage": "https://github.com/sparrowhawk-ea/fmmp-ng#readme",
+  "keywords": [
+    "Angular",
+    "Form",
+    "Minimap"
+  ],
+  "license": "MIT",
+  "name": "@fmmp/ng",
+  "peerDependencies": {
+    "@fmmp/core": "^1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sparrowhawk-ea/fmmp-ng.git"
+  },
+  "version": "1.0.0",
+  "main": "bundles/fmmp-ng.umd.js",
+  "module": "fesm2015/fmmp-ng.js",
+  "es2015": "fesm2015/fmmp-ng.js",
+  "esm2015": "esm2015/fmmp-ng.js",
+  "fesm2015": "fesm2015/fmmp-ng.js",
+  "typings": "fmmp-ng.d.ts",
+  "metadata": "fmmp-ng.metadata.json",
+  "sideEffects": false,
+  "dependencies": {
+    "tslib": "^2.0.0"
+  }
+}
