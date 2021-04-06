@@ -1,0 +1,31 @@
+{
+	"angularCompilerOptions": {
+		"enableIvy": false,
+		"enableResourceInlining": true,
+		"skipTemplateCodegen": true,
+		"strictMetadataEmit": true
+	},
+	"compileOnSave": false,
+	"compilerOptions": {
+		"baseUrl": "./",
+		"declaration": true,
+		"declarationMap": false,
+		"downlevelIteration": true,
+		"esModuleInterop": true,
+		"experimentalDecorators": true,
+		"importHelpers": true,
+		"inlineSources": true,
+		"isolatedModules": true,
+		"lib": ["es2018", "dom"],
+		"module": "es2020",
+		"moduleResolution": "node",
+		"outDir": "./dist/out-tsc",
+		"sourceMap": true,
+		"strict": true,
+		"strictNullChecks": false,
+		"target": "es5",
+		"paths": {
+			"fmm-ng": ["dist/fmm-ng/fmm-ng", "dist/fmm-ng"]
+		}
+	}
+}

@@ -1,0 +1,66 @@
+{
+  "author": "sparrowhawk-ea",
+  "bugs": {
+    "url": "https://github.com/sparrowhawk-ea/fmmp-ng/issues"
+  },
+  "description": "Form Minimap Angular",
+  "devDependencies": {
+    "@angular-devkit/build-angular": "~0.1102.7",
+    "@angular/animations": "~11.2.8",
+    "@angular/cli": "~11.2.7",
+    "@angular/common": "~11.2.8",
+    "@angular/compiler": "~11.2.8",
+    "@angular/compiler-cli": "~11.2.8",
+    "@angular/core": "^11.2.8",
+    "@angular/forms": "^11.2.8",
+    "@angular/platform-browser": "~11.2.8",
+    "@angular/platform-browser-dynamic": "~11.2.8",
+    "@angular/router": "~11.2.8",
+    "@fmmp/core": "^1.0.0",
+    "@types/node": "^12.11.1",
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
+    "eslint": "^7.21.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "ng-packagr": "^11.2.4",
+    "prettier": "^2.2.1",
+    "rxjs": "^6.6.3",
+    "ts-node": "~8.3.0",
+    "tslib": "^2.1.0",
+    "typescript": "^4.1.4",
+    "zone.js": "~0.10.2"
+  },
+  "files": [
+    "**"
+  ],
+  "homepage": "https://github.com/sparrowhawk-ea/fmmp-ng#readme",
+  "keywords": [
+    "Angular",
+    "Form",
+    "Minimap"
+  ],
+  "license": "MIT",
+  "name": "@fmmp/ng",
+  "peerDependencies": {
+    "@fmmp/core": "^1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sparrowhawk-ea/fmmp-ng.git"
+  },
+  "scripts": {
+    "build": "ng build",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "eslint --report-unused-disable-directives --ext .ts .",
+    "postversion": "git push && git push --tags",
+    "prebuild": "rm -rf dist",
+    "prepack": "echo \"Error: run cd dist && npm publish --access public\" && exit 1",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run lint",
+    "preversion": "npm run lint",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "version": "npm run format && git add -A src"
+  },
+  "version": "1.0.0"
+}
