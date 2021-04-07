@@ -22,7 +22,7 @@
     "type": "git",
     "url": "git+https://github.com/sparrowhawk-ea/fmmp-ng.git"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "bundles/fmmp-ng.umd.js",
   "module": "fesm2015/fmmp-ng.js",
   "es2015": "fesm2015/fmmp-ng.js",

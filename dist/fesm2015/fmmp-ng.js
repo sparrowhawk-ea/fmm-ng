@@ -73,10 +73,13 @@ FmmNgMinimap.ctorParameters = () => [
 FmmNgMinimap.propDecorators = {
     aggregateLabels: [{ type: Input }],
     anchor: [{ type: Input }],
+    customWidgetIds: [{ type: Input }],
     debounceMsec: [{ type: Input }],
     dynamicLabels: [{ type: Input }],
     formGroup: [{ type: Input }],
     framework: [{ type: Input }],
+    key: [{ type: Input }],
+    namelessControls: [{ type: Input }],
     page: [{ type: Input }],
     panel: [{ type: Input }],
     title: [{ type: Input }],
@@ -84,9 +87,6 @@ FmmNgMinimap.propDecorators = {
     useWidthToScale: [{ type: Input }],
     verbosity: [{ type: Input }],
     widgetFactories: [{ type: Input }],
-    customWidgetIds: [{ type: Input }],
-    key: [{ type: Input }],
-    namelessControls: [{ type: Input }],
     update: [{ type: Output }]
 };
 // =================================================================================================================================

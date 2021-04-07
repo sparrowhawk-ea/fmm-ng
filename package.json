@@ -62,5 +62,5 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "version": "npm run format && git add -A src"
   },
-  "version": "1.0.0"
+  "version": "1.0.1"
 }

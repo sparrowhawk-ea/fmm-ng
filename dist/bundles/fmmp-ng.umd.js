@@ -77,10 +77,13 @@
     FmmNgMinimap.propDecorators = {
         aggregateLabels: [{ type: core.Input }],
         anchor: [{ type: core.Input }],
+        customWidgetIds: [{ type: core.Input }],
         debounceMsec: [{ type: core.Input }],
         dynamicLabels: [{ type: core.Input }],
         formGroup: [{ type: core.Input }],
         framework: [{ type: core.Input }],
+        key: [{ type: core.Input }],
+        namelessControls: [{ type: core.Input }],
         page: [{ type: core.Input }],
         panel: [{ type: core.Input }],
         title: [{ type: core.Input }],
@@ -88,9 +91,6 @@
         useWidthToScale: [{ type: core.Input }],
         verbosity: [{ type: core.Input }],
         widgetFactories: [{ type: core.Input }],
-        customWidgetIds: [{ type: core.Input }],
-        key: [{ type: core.Input }],
-        namelessControls: [{ type: core.Input }],
         update: [{ type: core.Output }]
     };
     // =================================================================================================================================

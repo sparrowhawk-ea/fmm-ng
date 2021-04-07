@@ -20,22 +20,22 @@ import {
 // =================================================================================================================================
 @Component({ selector: 'fmm-ng-minimap', template: '' })
 export class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Partial<FmmMinimap> {
-	@Input() private readonly aggregateLabels?: FmmMapString;
-	@Input() private readonly anchor: HTMLElement;
-	@Input() private readonly debounceMsec: number;
-	@Input() private readonly dynamicLabels?: string[];
-	@Input() private readonly formGroup: FormGroup;
-	@Input() private readonly framework: FmmFramework;
-	@Input() private readonly page: HTMLElement;
-	@Input() private readonly panel: FmmNgPanel;
-	@Input() private readonly title: string;
-	@Input() private readonly usePanelDetail: boolean;
-	@Input() private readonly useWidthToScale: boolean;
-	@Input() private readonly verbosity = 0;
-	@Input() private readonly widgetFactories?: FmmWidgetFactory[];
+	@Input() private aggregateLabels?: FmmMapString;
+	@Input() private anchor: HTMLElement;
 	@Input() private customWidgetIds: string[];
+	@Input() private debounceMsec: number;
+	@Input() private dynamicLabels?: string[];
+	@Input() private formGroup: FormGroup;
+	@Input() private framework: FmmFramework;
 	@Input() private key: string;
 	@Input() private namelessControls: FmmNgNamelessControls;
+	@Input() private page: HTMLElement;
+	@Input() private panel: FmmNgPanel;
+	@Input() private title: string;
+	@Input() private usePanelDetail: boolean;
+	@Input() private useWidthToScale: boolean;
+	@Input() private verbosity = 0;
+	@Input() private widgetFactories?: FmmWidgetFactory[];
 	@Output() private readonly update = new EventEmitter<FmmMinimapSnapshot>();
 	private readonly form: HTMLFormElement;
 
