@@ -24,6 +24,7 @@ export declare class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Parti
     private previousKey;
     private store;
     constructor(hostRef: ElementRef);
+    destructor(): void;
     ngOnChanges(): void;
     ngOnDestroy(): void;
     ngOnInit(): void;

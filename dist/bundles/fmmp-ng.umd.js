@@ -18,6 +18,13 @@
             this.form = form;
         }
         // =============================================================================================================================
+        FmmNgMinimap.prototype.destructor = function () {
+            if (!this.minimap)
+                return;
+            this.minimap.destructor();
+            this.minimap = undefined;
+        };
+        // =============================================================================================================================
         FmmNgMinimap.prototype.ngOnChanges = function () {
             if (!this.minimap)
                 return;

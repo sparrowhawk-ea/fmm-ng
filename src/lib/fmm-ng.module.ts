@@ -51,6 +51,13 @@ export class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Partial<FmmMi
 	}
 
 	// =============================================================================================================================
+	public destructor(): void {
+		if (!this.minimap) return;
+		this.minimap.destructor();
+		this.minimap = undefined;
+	}
+
+	// =============================================================================================================================
 	public ngOnChanges(): void {
 		if (!this.minimap) return;
 		if (this.key !== this.previousKey) {
