@@ -1,24 +1,24 @@
-import { ElementRef, OnChanges, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
-import { FmmElementFactory, FmmMinimap, FmmPanel } from '@fmmp/core';
+import { ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { AbstractControl, FormGroup } from '@angular/forms';
+import { FmmElementFactory, FmmFramework, FmmMapString, FmmMinimap, FmmMinimapSnapshot, FmmPanel, FmmWidgetFactory } from '@eafmm/core';
 export declare class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Partial<FmmMinimap> {
-    private aggregateLabels?;
-    private anchor;
-    private customWidgetIds;
-    private debounceMsec;
-    private dynamicLabels?;
-    private formGroup;
-    private framework;
-    private key;
-    private namelessControls;
-    private page;
-    private panel;
-    private title;
-    private usePanelDetail;
-    private useWidthToScale;
-    private verbosity;
-    private widgetFactories?;
-    private readonly update;
+    aggregateLabels?: FmmMapString;
+    anchor: HTMLElement;
+    customWidgetIds: string[];
+    debounceMsec: number;
+    dynamicLabels?: string[];
+    formGroup: FormGroup;
+    framework: FmmFramework;
+    key: string;
+    namelessControls: FmmNgNamelessControls;
+    page: HTMLElement;
+    panel: FmmNgPanel;
+    title: string;
+    usePanelDetail: boolean;
+    useWidthToScale: boolean;
+    verbosity: number;
+    widgetFactories?: FmmWidgetFactory[];
+    readonly update: EventEmitter<FmmMinimapSnapshot>;
     private readonly form;
     private minimap;
     private previousKey;
@@ -32,8 +32,8 @@ export declare class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Parti
 }
 export declare class FmmNgPanel implements OnDestroy, OnInit, Partial<FmmPanel> {
     private readonly hostRef;
-    private readonly detailParent;
-    private readonly vertical;
+    readonly detailParent: HTMLElement;
+    readonly vertical: boolean;
     readonly ef: FmmElementFactory;
     private minimapPanel;
     constructor(hostRef: ElementRef);

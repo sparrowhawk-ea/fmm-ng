@@ -1,7 +1,7 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs'), require('@fmmp/core')) :
-    typeof define === 'function' && define.amd ? define('@fmmp/ng', ['exports', '@angular/core', 'rxjs', '@fmmp/core'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.fmmp = global.fmmp || {}, global.fmmp.ng = {}), global.ng.core, global.rxjs, global['@fmmp/core']));
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs'), require('@eafmm/core')) :
+    typeof define === 'function' && define.amd ? define('@eafmm/ng', ['exports', '@angular/core', 'rxjs', '@eafmm/core'], factory) :
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.eafmm = global.eafmm || {}, global.eafmm.ng = {}), global.ng.core, global.rxjs, global['@eafmm/core']));
 }(this, (function (exports, core, rxjs, core$1) { 'use strict';
 
     // =================================================================================================================================
@@ -315,4 +315,4 @@
     Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
-//# sourceMappingURL=fmmp-ng.umd.js.map
+//# sourceMappingURL=eafmm-ng.umd.js.map

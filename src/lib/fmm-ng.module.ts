@@ -13,30 +13,30 @@ import {
 	FmmStore,
 	FmmStoreItem,
 	FmmWidgetFactory
-} from '@fmmp/core';
+} from '@eafmm/core';
 
 // =================================================================================================================================
 //						F M M N G M I N I M A P
 // =================================================================================================================================
 @Component({ selector: 'fmm-ng-minimap', template: '' })
 export class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Partial<FmmMinimap> {
-	@Input() private aggregateLabels?: FmmMapString;
-	@Input() private anchor: HTMLElement;
-	@Input() private customWidgetIds: string[];
-	@Input() private debounceMsec: number;
-	@Input() private dynamicLabels?: string[];
-	@Input() private formGroup: FormGroup;
-	@Input() private framework: FmmFramework;
-	@Input() private key: string;
-	@Input() private namelessControls: FmmNgNamelessControls;
-	@Input() private page: HTMLElement;
-	@Input() private panel: FmmNgPanel;
-	@Input() private title: string;
-	@Input() private usePanelDetail: boolean;
-	@Input() private useWidthToScale: boolean;
-	@Input() private verbosity = 0;
-	@Input() private widgetFactories?: FmmWidgetFactory[];
-	@Output() private readonly update = new EventEmitter<FmmMinimapSnapshot>();
+	@Input() public aggregateLabels?: FmmMapString;
+	@Input() public anchor: HTMLElement;
+	@Input() public customWidgetIds: string[];
+	@Input() public debounceMsec: number;
+	@Input() public dynamicLabels?: string[];
+	@Input() public formGroup: FormGroup;
+	@Input() public framework: FmmFramework;
+	@Input() public key: string;
+	@Input() public namelessControls: FmmNgNamelessControls;
+	@Input() public page: HTMLElement;
+	@Input() public panel: FmmNgPanel;
+	@Input() public title: string;
+	@Input() public usePanelDetail: boolean;
+	@Input() public useWidthToScale: boolean;
+	@Input() public verbosity = 0;
+	@Input() public widgetFactories?: FmmWidgetFactory[];
+	@Output() public readonly update = new EventEmitter<FmmMinimapSnapshot>();
 	private readonly form: HTMLFormElement;
 
 	private minimap: FmmMinimap;
@@ -111,8 +111,8 @@ export class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Partial<FmmMi
 // =================================================================================================================================
 @Component({ selector: 'fmm-ng-panel', template: '' })
 export class FmmNgPanel implements OnDestroy, OnInit, Partial<FmmPanel> {
-	@Input() private readonly detailParent: HTMLElement;
-	@Input() private readonly vertical: boolean;
+	@Input() public readonly detailParent: HTMLElement;
+	@Input() public readonly vertical: boolean;
 
 	public readonly ef: FmmElementFactory;
 	private minimapPanel: FmmPanel;

@@ -1,6 +1,6 @@
 import { EventEmitter, Component, ElementRef, Input, Output, NgModule } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Fmm } from '@fmmp/core';
+import { Fmm } from '@eafmm/core';
 
 // =================================================================================================================================
 //						F M M N G M I N I M A P
@@ -297,4 +297,4 @@ class Store {
  */
 
 export { FmmNgMinimap, FmmNgModule, FmmNgPanel };
-//# sourceMappingURL=fmmp-ng.js.map
+//# sourceMappingURL=eafmm-ng.js.map

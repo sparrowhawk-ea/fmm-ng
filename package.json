@@ -1,7 +1,7 @@
 {
   "author": "sparrowhawk-ea",
   "bugs": {
-    "url": "https://github.com/sparrowhawk-ea/fmmp-ng/issues"
+    "url": "https://github.com/sparrowhawk-ea/fmm-ng/issues"
   },
   "description": "Form Minimap Angular",
   "devDependencies": {
@@ -16,7 +16,6 @@
     "@angular/platform-browser": "~11.2.8",
     "@angular/platform-browser-dynamic": "~11.2.8",
     "@angular/router": "~11.2.8",
-    "@fmmp/core": "^1.0.0",
     "@types/node": "^12.11.1",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
@@ -34,23 +33,23 @@
   "files": [
     "**"
   ],
-  "homepage": "https://github.com/sparrowhawk-ea/fmmp-ng#readme",
+  "homepage": "https://github.com/sparrowhawk-ea/fmm-ng#readme",
   "keywords": [
     "Angular",
     "Form",
     "Minimap"
   ],
   "license": "MIT",
-  "name": "@fmmp/ng",
+  "name": "@eafmm/ng",
   "peerDependencies": {
-    "@fmmp/core": "^1.0.0"
+    "@eafmm/core": "^1.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sparrowhawk-ea/fmmp-ng.git"
+    "url": "git+https://github.com/sparrowhawk-ea/fmm-ng.git"
   },
   "scripts": {
-    "build": "ng build",
+    "build": "ng build --prod",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "eslint --report-unused-disable-directives --ext .ts .",
     "postversion": "git push && git push --tags",
@@ -62,5 +61,5 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "version": "npm run format && git add -A src"
   },
-  "version": "1.0.2"
+  "version": "1.0.0"
 }

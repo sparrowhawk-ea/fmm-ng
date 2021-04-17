@@ -1,35 +1,35 @@
 {
   "author": "sparrowhawk-ea",
   "bugs": {
-    "url": "https://github.com/sparrowhawk-ea/fmmp-ng/issues"
+    "url": "https://github.com/sparrowhawk-ea/fmm-ng/issues"
   },
   "description": "Form Minimap Angular",
   "files": [
     "**"
   ],
-  "homepage": "https://github.com/sparrowhawk-ea/fmmp-ng#readme",
+  "homepage": "https://github.com/sparrowhawk-ea/fmm-ng#readme",
   "keywords": [
     "Angular",
     "Form",
     "Minimap"
   ],
   "license": "MIT",
-  "name": "@fmmp/ng",
+  "name": "@eafmm/ng",
   "peerDependencies": {
-    "@fmmp/core": "^1.0.0"
+    "@eafmm/core": "^1.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sparrowhawk-ea/fmmp-ng.git"
+    "url": "git+https://github.com/sparrowhawk-ea/fmm-ng.git"
   },
-  "version": "1.0.2",
-  "main": "bundles/fmmp-ng.umd.js",
-  "module": "fesm2015/fmmp-ng.js",
-  "es2015": "fesm2015/fmmp-ng.js",
-  "esm2015": "esm2015/fmmp-ng.js",
-  "fesm2015": "fesm2015/fmmp-ng.js",
-  "typings": "fmmp-ng.d.ts",
-  "metadata": "fmmp-ng.metadata.json",
+  "version": "1.0.0",
+  "main": "bundles/eafmm-ng.umd.js",
+  "module": "fesm2015/eafmm-ng.js",
+  "es2015": "fesm2015/eafmm-ng.js",
+  "esm2015": "esm2015/eafmm-ng.js",
+  "fesm2015": "fesm2015/eafmm-ng.js",
+  "typings": "eafmm-ng.d.ts",
+  "metadata": "eafmm-ng.metadata.json",
   "sideEffects": false,
   "dependencies": {
     "tslib": "^2.0.0"
