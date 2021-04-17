@@ -41,15 +41,15 @@ After
 ```ts
     import { Component, NgModule } from '@angular/core';
     import { BrowserModule } from '@angular/platform-browser';
-    import { FmmNgMinimap, FmmNgPanel } from '@eafmm/ng'
+    import { FmmNgModule } from '@eafmm/ng'
 
     @Component({
         selector: 'app-root',
         template: ` <div>
             <div #anchor style='width:20px; height:20px; margin-left:200px'></div>
-            <FmmNgPanel #panel/>
+            <fmm-ng-panel #panel></fmm-ng-panel>
             <form>
-                <FmmNgMinimap [anchor]='anchor' [panel]='panel' title='Title'/>
+                <fmm-ng-minimap [anchor]='anchor' [panel]='panel' title='Title'></fmm-ng-minimap>
                 <input id="Input1"/><br/>
                 <input id="Input2"/><br/>
                 <input id="Input3"/><br/>
@@ -62,7 +62,7 @@ After
 
     @NgModule({
         declarations: [AppComponent],
-        imports: [BrowserModule, FmmNgMinimap, FmmNgPanel],
+        imports: [BrowserModule, FmmNgModule],
         providers: [],
         bootstrap: [AppComponent]
     })
