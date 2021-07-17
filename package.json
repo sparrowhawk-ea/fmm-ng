@@ -5,30 +5,32 @@
   },
   "description": "Form Minimap Angular",
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.1102.7",
-    "@angular/animations": "~11.2.8",
-    "@angular/cli": "~11.2.7",
-    "@angular/common": "~11.2.8",
-    "@angular/compiler": "~11.2.8",
-    "@angular/compiler-cli": "~11.2.8",
-    "@angular/core": "^11.2.8",
-    "@angular/forms": "^11.2.8",
-    "@angular/platform-browser": "~11.2.8",
-    "@angular/platform-browser-dynamic": "~11.2.8",
-    "@angular/router": "~11.2.8",
-    "@types/node": "^12.11.1",
-    "@typescript-eslint/eslint-plugin": "^4.16.1",
-    "@typescript-eslint/parser": "^4.16.1",
-    "eslint": "^7.21.0",
-    "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-prettier": "^3.3.1",
-    "ng-packagr": "^11.2.4",
-    "prettier": "^2.2.1",
-    "rxjs": "^6.6.3",
-    "ts-node": "~8.3.0",
-    "tslib": "^2.1.0",
-    "typescript": "^4.1.4",
-    "zone.js": "~0.10.2"
+    "@angular-devkit/build-angular": "^12.1.2",
+    "@angular/animations": "^12.1.2",
+    "@angular/cli": "^12.1.2",
+    "@angular/common": "^12.1.2",
+    "@angular/compiler": "^12.1.2",
+    "@angular/compiler-cli": "^12.1.2",
+    "@angular/core": "^12.1.2",
+    "@angular/forms": "^12.1.2",
+    "@angular/platform-browser": "^12.1.2",
+    "@angular/platform-browser-dynamic": "^12.1.2",
+    "@angular/router": "^12.1.2",
+    "@types/eslint": "^7.28.0",
+    "@types/estree": "^0.0.50",
+    "@types/node": "^16.3.3",
+    "@typescript-eslint/eslint-plugin": "^4.28.3",
+    "@typescript-eslint/parser": "^4.28.3",
+    "eslint": "^7.30.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "ng-packagr": "^12.1.2",
+    "prettier": "^2.3.2",
+    "rxjs": "^6.6.6",
+    "ts-node": "~10.1.0",
+    "tslib": "^2.3.0",
+    "typescript": "^4.3.5",
+    "zone.js": "~0.11.4"
   },
   "files": [
     "**"
@@ -49,7 +51,7 @@
     "url": "git+https://github.com/sparrowhawk-ea/fmm-ng.git"
   },
   "scripts": {
-    "build": "ng build --prod",
+    "build": "ng build --configuration production",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "eslint --report-unused-disable-directives --ext .ts .",
     "postversion": "git push && git push --tags",
@@ -61,5 +63,5 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "version": "npm run format && git add -A src"
   },
-  "version": "1.0.0"
+  "version": "1.0.1"
 }
