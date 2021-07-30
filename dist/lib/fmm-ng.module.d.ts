@@ -13,6 +13,7 @@ export declare class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Parti
     namelessControls: FmmNgNamelessControls;
     page: HTMLElement;
     panel: FmmNgPanel;
+    parent: HTMLElement;
     title: string;
     usePanelDetail: boolean;
     useWidthToScale: boolean;

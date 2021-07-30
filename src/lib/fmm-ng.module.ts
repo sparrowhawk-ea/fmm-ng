@@ -31,6 +31,7 @@ export class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Partial<FmmMi
 	@Input() public namelessControls: FmmNgNamelessControls;
 	@Input() public page: HTMLElement;
 	@Input() public panel: FmmNgPanel;
+	@Input() public parent: HTMLElement;
 	@Input() public title: string;
 	@Input() public usePanelDetail: boolean;
 	@Input() public useWidthToScale: boolean;
@@ -94,8 +95,9 @@ export class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Partial<FmmMi
 			verbosity: this.verbosity,
 			widgetFactories: this.widgetFactories
 		};
-		const panel = this.panel ? G.PANELMAP.get(this.panel) : undefined;
-		this.minimap = panel?.createMinimap(p);
+		this.minimap = this.panel
+			? G.PANELMAP.get(this.panel)?.createMinimap(p)
+			: Fmm.createMinimap(p, this.parent, new ElementFactory(this.parent || this.anchor));
 		this.previousKey = this.key;
 		this.ngOnChanges();
 	}
@@ -119,7 +121,7 @@ export class FmmNgPanel implements OnDestroy, OnInit, Partial<FmmPanel> {
 
 	// =============================================================================================================================
 	public constructor(private readonly hostRef: ElementRef) {
-		this.ef = new ElementFactory(hostRef);
+		this.ef = new ElementFactory(hostRef.nativeElement as Element);
 	}
 
 	// =============================================================================================================================
@@ -133,7 +135,7 @@ export class FmmNgPanel implements OnDestroy, OnInit, Partial<FmmPanel> {
 	public ngOnInit(): void {
 		const host = this.hostRef.nativeElement as HTMLElement;
 		const vertical = this.vertical !== undefined;
-		this.minimapPanel = Fmm.createPanel(this.ef, host, this.detailParent, vertical);
+		this.minimapPanel = Fmm.createPanel(host, this.detailParent, vertical, this.ef);
 		G.PANELMAP.set(this, this.minimapPanel);
 	}
 
@@ -167,15 +169,15 @@ class ElementFactory implements FmmElementFactory {
 	private readonly ngContentAttribute: string;
 
 	// =============================================================================================================================
-	public constructor(ref: ElementRef) {
+	public constructor(p: Element) {
 		let ngContentAttribute: string; // set attribute on elements to use non-global CSS
 		if (Element.prototype.getAttributeNames !== undefined) {
-			for (let p = ref.nativeElement as Element; p && !ngContentAttribute; p = p.parentElement) {
+			for (; p && !ngContentAttribute; p = p.parentElement) {
 				const names = p.getAttributeNames();
 				ngContentAttribute = names.find((a: string) => a.startsWith('_ngcontent-'));
 			}
 		} else {
-			for (let p = ref.nativeElement as Element; p && !ngContentAttribute; p = p.parentElement) {
+			for (; p && !ngContentAttribute; p = p.parentElement) {
 				const names = Array.prototype.map.call(p.attributes, (a: Attr) => a.name) as string[];
 				ngContentAttribute = names.find((a: string) => a.startsWith('_ngcontent-'));
 			}

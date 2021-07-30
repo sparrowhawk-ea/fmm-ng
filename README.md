@@ -37,7 +37,37 @@ Before
     })
     export class AppModule { }
 ```
-After
+After without panel
+```ts
+    import { Component, NgModule } from '@angular/core';
+    import { BrowserModule } from '@angular/platform-browser';
+    import { FmmNgModule } from '@eafmm/ng'
+
+    @Component({
+        selector: 'app-root',
+        template: ` <div>
+            <div #parent style='width:70px; height:50px; margin-left:200px'></div>
+            <form>
+                <fmm-ng-minimap [parent]='parent' title='Title'></fmm-ng-minimap>
+                <input id="Input1"/><br/>
+                <input id="Input2"/><br/>
+                <input id="Input3"/><br/>
+                <input id="Input4"/>
+            </form>
+        </div>`,
+        styles: []
+    })
+    export class AppComponent { }
+
+    @NgModule({
+        declarations: [AppComponent],
+        imports: [BrowserModule, FmmNgModule],
+        providers: [],
+        bootstrap: [AppComponent]
+    })
+    export class AppModule { }
+```
+After with panel
 ```ts
     import { Component, NgModule } from '@angular/core';
     import { BrowserModule } from '@angular/platform-browser';
@@ -83,6 +113,7 @@ Module containing all the components.
 ## FmmNgMinimap
 Component to create and manage a [FmmMinimap](https://github.com/sparrowhawk-ea/fmm-core#fmmminimap).
 The minimap is detached when this component is destroyed.
+For minimaps in a panel, use the panel property; otherwise use the parent property to show an always-visible minimap, or anchor for a popup minimap.
 
 Attribute | Type | Required | Description
 --- | --- | :---: | ---
@@ -97,6 +128,7 @@ key | string | | Minimap is recreated when key changes.  Any previous minimap is
 namelessControls | FmmNgNamelessControls (= Record<string, AbstractControl>) | | Additional FormControls, dentified by their form element's ID or NAME attribute, which may not be discoverable by traversing up the DOM tree and looking up formArrayName, formControlName, or formGroupName attribute on DOM elements.
 [page](https://github.com/sparrowhawk-ea/fmm-core#mcp-page) | HTMLElement
 panel | [FmmNgPanel](#fmmngpanel) | &check;
+[parent](https://github.com/sparrowhawk-ea/fmm-core#pcm-parent) | HTMLElement
 [title](https://github.com/sparrowhawk-ea/fmm-core#mcp-title) | string | &check;
 [usePanelDetail](https://github.com/sparrowhawk-ea/fmm-core#mcp-usepaneldetail) | existential
 [useWidthToScale](https://github.com/sparrowhawk-ea/fmm-core#mcp-usewidthtoscale) | existential

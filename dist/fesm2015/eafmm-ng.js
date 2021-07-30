@@ -44,6 +44,7 @@ class FmmNgMinimap {
     }
     // =============================================================================================================================
     ngOnInit() {
+        var _a;
         const p = {
             aggregateLabels: this.aggregateLabels,
             anchor: this.anchor,
@@ -60,8 +61,9 @@ class FmmNgMinimap {
             verbosity: this.verbosity,
             widgetFactories: this.widgetFactories
         };
-        const panel = this.panel ? G.PANELMAP.get(this.panel) : undefined;
-        this.minimap = panel === null || panel === void 0 ? void 0 : panel.createMinimap(p);
+        this.minimap = this.panel
+            ? (_a = G.PANELMAP.get(this.panel)) === null || _a === void 0 ? void 0 : _a.createMinimap(p)
+            : Fmm.createMinimap(p, this.parent, new ElementFactory(this.parent || this.anchor));
         this.previousKey = this.key;
         this.ngOnChanges();
     }
@@ -89,6 +91,7 @@ FmmNgMinimap.propDecorators = {
     namelessControls: [{ type: Input }],
     page: [{ type: Input }],
     panel: [{ type: Input }],
+    parent: [{ type: Input }],
     title: [{ type: Input }],
     usePanelDetail: [{ type: Input }],
     useWidthToScale: [{ type: Input }],
@@ -103,7 +106,7 @@ class FmmNgPanel {
     // =============================================================================================================================
     constructor(hostRef) {
         this.hostRef = hostRef;
-        this.ef = new ElementFactory(hostRef);
+        this.ef = new ElementFactory(hostRef.nativeElement);
     }
     // =============================================================================================================================
     ngOnDestroy() {
@@ -115,7 +118,7 @@ class FmmNgPanel {
     ngOnInit() {
         const host = this.hostRef.nativeElement;
         const vertical = this.vertical !== undefined;
-        this.minimapPanel = Fmm.createPanel(this.ef, host, this.detailParent, vertical);
+        this.minimapPanel = Fmm.createPanel(host, this.detailParent, vertical, this.ef);
         G.PANELMAP.set(this, this.minimapPanel);
     }
     // =============================================================================================================================
@@ -152,16 +155,16 @@ FmmNgModule.decorators = [
 // =================================================================================================================================
 class ElementFactory {
     // =============================================================================================================================
-    constructor(ref) {
+    constructor(p) {
         let ngContentAttribute; // set attribute on elements to use non-global CSS
         if (Element.prototype.getAttributeNames !== undefined) {
-            for (let p = ref.nativeElement; p && !ngContentAttribute; p = p.parentElement) {
+            for (; p && !ngContentAttribute; p = p.parentElement) {
                 const names = p.getAttributeNames();
                 ngContentAttribute = names.find((a) => a.startsWith('_ngcontent-'));
             }
         }
         else {
-            for (let p = ref.nativeElement; p && !ngContentAttribute; p = p.parentElement) {
+            for (; p && !ngContentAttribute; p = p.parentElement) {
                 const names = Array.prototype.map.call(p.attributes, (a) => a.name);
                 ngContentAttribute = names.find((a) => a.startsWith('_ngcontent-'));
             }
@@ -292,9 +295,90 @@ class Store {
     }
 }
 
+// =================================================================================================================================
+//						F M M N G M A T E R I A L
+// =================================================================================================================================
+const FmmNgMaterial = {
+    createFrameworkItem(_, e) {
+        const eTag = e.tagName;
+        if (eTag === 'INPUT' && e.classList.contains('mat-autocomplete-trigger'))
+            return new FrameworkItemAutoComplete(e);
+        return eTag === 'MAT-SELECT' ? new FrameworkItemSelect(e) : new FrameworkItem(e);
+    }
+};
+// =================================================================================================================================
+// =================================================================================================================================
+// =================================================	P R I V A T E	============================================================
+// =================================================================================================================================
+// =================================================================================================================================
+// =================================================================================================================================
+//						F R A M E W O R K I T E M
+// =================================================================================================================================
+class FrameworkItem {
+    // =============================================================================================================================
+    constructor(e) {
+        let field = e.parentElement;
+        while (field && field.tagName !== 'MAT-FORM-FIELD')
+            field = field.parentElement;
+        let tag = e;
+        while (tag && !tag.tagName.startsWith('MAT-'))
+            tag = tag.parentElement;
+        if (!field) {
+            this.envelope = this.forValidation = tag || e;
+        }
+        else {
+            this.forValidation = field;
+            this.envelope = !tag || field.querySelectorAll(tag.tagName).length < 2 ? field : tag || e;
+            const labels = field.querySelectorAll('LABEL');
+            if (labels.length === 1)
+                this.label = labels[0];
+        }
+    }
+    // =============================================================================================================================
+    destructor() {
+        /**/
+    }
+    // =============================================================================================================================
+    getEnvelope(_, _e, _l) {
+        return this.envelope;
+    }
+    // =============================================================================================================================
+    getError(_, _e, _n, _v) {
+        var _a;
+        return (_a = this.forValidation.querySelector('MAT-ERROR')) === null || _a === void 0 ? void 0 : _a.textContent;
+    }
+    // =============================================================================================================================
+    getLabel(_, _e) {
+        return this.label;
+    }
+    // =============================================================================================================================
+    getValue(_, _e, _n, _l) {
+        return undefined;
+    }
+}
+// =================================================================================================================================
+//						F R A M E W O R K I T E M A U T O C O M P L E T E
+// =================================================================================================================================
+class FrameworkItemAutoComplete extends FrameworkItem {
+    // =============================================================================================================================
+    getValue(_, e, _n, _l) {
+        return e.value;
+    }
+}
+// =================================================================================================================================
+//						F R A M E W O R K I T E M S E L E C T
+// =================================================================================================================================
+class FrameworkItemSelect extends FrameworkItem {
+    // =============================================================================================================================
+    getValue(_, e, _n, _l) {
+        var _a;
+        return (_a = e.querySelector('.mat-select-value-text')) === null || _a === void 0 ? void 0 : _a.textContent;
+    }
+}
+
 /**
  * Generated bundle index. Do not edit.
  */
 
-export { FmmNgMinimap, FmmNgModule, FmmNgPanel };
+export { FmmNgMaterial, FmmNgMinimap, FmmNgModule, FmmNgPanel };
 //# sourceMappingURL=eafmm-ng.js.map
