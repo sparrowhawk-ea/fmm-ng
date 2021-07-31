@@ -11,92 +11,40 @@ npm install --save @fmm/ng
 ```
 
 ## Adding Form Minimap
-Before
+The code sample below shows the lines added to a simple form to add a minimap (M) or a minimap with panel (P)
 ```ts
-    import { Component, NgModule } from '@angular/core';
-    import { BrowserModule } from '@angular/platform-browser';
+            import { Component, NgModule } from '@angular/core';
+            import { BrowserModule } from '@angular/platform-browser';
+M P         import { FmmNgModule } from '@eafmm/ng'
 
-    @Component({
-        selector: 'app-root',
-        template: ` <div>
-            <form>
-                <input id="Input1"/><br/>
-                <input id="Input2"/><br/>
-                <input id="Input3"/><br/>
-                <input id="Input4"/>
-            </form>
-        </div>`
-    })
-    export class AppComponent { }
+            @Component({
+                selector: 'app-root',
+                template: ` <div>
+M                   <div #parent style='width:70px; height:50px; margin-left:200px'></div>
+  P                 <div #anchor style='width:20px; height:20px; margin-left:200px'></div>
+  P                 <fmm-ng-panel #panel></fmm-ng-panel>
+                    <form>
+M                       <fmm-ng-minimap [parent]='parent' title='Title'></fmm-ng-minimap>
+  P                     <fmm-ng-minimap [anchor]='anchor' [panel]='panel' title='Title'></fmm-ng-minimap>
+                        <input id="Input1"/><br/>
+                        <input id="Input2"/><br/>
+                        <input id="Input3"/><br/>
+                        <input id="Input4"/>
+                    </form>
+                </div>`,
+                styles: []
+            })
+            export class AppComponent { }
 
-    @NgModule({
-        declarations: [AppComponent],
-        imports: [BrowserModule],
-        providers: [],
-        bootstrap: [AppComponent]
-    })
-    export class AppModule { }
-```
-After without panel
-```ts
-    import { Component, NgModule } from '@angular/core';
-    import { BrowserModule } from '@angular/platform-browser';
-    import { FmmNgModule } from '@eafmm/ng'
-
-    @Component({
-        selector: 'app-root',
-        template: ` <div>
-            <div #parent style='width:70px; height:50px; margin-left:200px'></div>
-            <form>
-                <fmm-ng-minimap [parent]='parent' title='Title'></fmm-ng-minimap>
-                <input id="Input1"/><br/>
-                <input id="Input2"/><br/>
-                <input id="Input3"/><br/>
-                <input id="Input4"/>
-            </form>
-        </div>`,
-        styles: []
-    })
-    export class AppComponent { }
-
-    @NgModule({
-        declarations: [AppComponent],
-        imports: [BrowserModule, FmmNgModule],
-        providers: [],
-        bootstrap: [AppComponent]
-    })
-    export class AppModule { }
-```
-After with panel
-```ts
-    import { Component, NgModule } from '@angular/core';
-    import { BrowserModule } from '@angular/platform-browser';
-    import { FmmNgModule } from '@eafmm/ng'
-
-    @Component({
-        selector: 'app-root',
-        template: ` <div>
-            <div #anchor style='width:20px; height:20px; margin-left:200px'></div>
-            <fmm-ng-panel #panel></fmm-ng-panel>
-            <form>
-                <fmm-ng-minimap [anchor]='anchor' [panel]='panel' title='Title'></fmm-ng-minimap>
-                <input id="Input1"/><br/>
-                <input id="Input2"/><br/>
-                <input id="Input3"/><br/>
-                <input id="Input4"/>
-            </form>
-        </div>`,
-        styles: []
-    })
-    export class AppComponent { }
-
-    @NgModule({
-        declarations: [AppComponent],
-        imports: [BrowserModule, FmmNgModule],
-        providers: [],
-        bootstrap: [AppComponent]
-    })
-    export class AppModule { }
+            @NgModule({
+                declarations: [AppComponent],
+                imports: [BrowserModule
+M P                     , FmmNgModule
+                ],
+                providers: [],
+                bootstrap: [AppComponent]
+            })
+            export class AppModule { }
 ```
 
 ***
