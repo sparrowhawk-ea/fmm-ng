@@ -16,13 +16,13 @@
   "license": "MIT",
   "name": "@eafmm/ng",
   "peerDependencies": {
-    "@eafmm/core": "2"
+    "@eafmm/core": "3"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sparrowhawk-ea/fmm-ng.git"
   },
-  "version": "2.0.1",
+  "version": "3.0.0",
   "main": "bundles/eafmm-ng.umd.js",
   "module": "fesm2015/eafmm-ng.js",
   "es2015": "fesm2015/eafmm-ng.js",

@@ -1,6 +1,6 @@
 import { EventEmitter, Component, ElementRef, Input, Output, NgModule } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Fmm } from '@eafmm/core';
+import { FmmFormHTML, Fmm } from '@eafmm/core';
 
 // =================================================================================================================================
 //						F M M N G M I N I M A P
@@ -32,7 +32,7 @@ class FmmNgMinimap {
         }
         else {
             this.store.namelessControls = this.namelessControls;
-            this.minimap.compose(this.customWidgetIds);
+            this.minimap.compose(this.customElementIds);
         }
     }
     // =============================================================================================================================
@@ -50,16 +50,15 @@ class FmmNgMinimap {
             anchor: this.anchor,
             debounceMsec: this.debounceMsec,
             dynamicLabels: this.dynamicLabels,
-            form: this.form,
+            form: new FmmFormHTML(this.form, this.page),
             framework: this.framework,
             onUpdate: (snapshot) => this.update.next(snapshot),
-            page: this.page,
             store: this.store = new Store(this.formGroup),
             title: this.title,
             usePanelDetail: this.usePanelDetail !== undefined,
             useWidthToScale: this.useWidthToScale !== undefined,
             verbosity: this.verbosity,
-            widgetFactories: this.widgetFactories
+            zoomFactor: this.zoomFactor
         };
         this.minimap = this.panel
             ? (_a = G.PANELMAP.get(this.panel)) === null || _a === void 0 ? void 0 : _a.createMinimap(p)
@@ -82,7 +81,7 @@ FmmNgMinimap.ctorParameters = () => [
 FmmNgMinimap.propDecorators = {
     aggregateLabels: [{ type: Input }],
     anchor: [{ type: Input }],
-    customWidgetIds: [{ type: Input }],
+    customElementIds: [{ type: Input }],
     debounceMsec: [{ type: Input }],
     dynamicLabels: [{ type: Input }],
     formGroup: [{ type: Input }],
@@ -96,7 +95,7 @@ FmmNgMinimap.propDecorators = {
     usePanelDetail: [{ type: Input }],
     useWidthToScale: [{ type: Input }],
     verbosity: [{ type: Input }],
-    widgetFactories: [{ type: Input }],
+    zoomFactor: [{ type: Input }],
     update: [{ type: Output }]
 };
 // =================================================================================================================================
@@ -252,7 +251,7 @@ class Store {
         this.listener = () => this.minimaps.forEach(m => m.takeSnapshot());
     }
     // =============================================================================================================================
-    createStoreItem(e, _) {
+    createStoreItem(_, e) {
         const name = e.getAttribute('name') || e.id;
         const control = name ? this.namelessControls[name] : undefined;
         if (control)
@@ -287,7 +286,23 @@ class Store {
         return ac ? new StoreItem(e, this.listener, path, ac) : undefined;
     }
     // =============================================================================================================================
-    notifyMinimap(minimap, on) {
+    getError(_, item, hasValue) {
+        return item.getError(hasValue);
+    }
+    // =============================================================================================================================
+    getName(_, item) {
+        return item.getName();
+    }
+    // =============================================================================================================================
+    getValue(_, item) {
+        return item.getValue();
+    }
+    // =============================================================================================================================
+    isDisabled(_, item) {
+        return item.isDisabled();
+    }
+    // =============================================================================================================================
+    notifyMinimapOnUpdate(minimap, on) {
         if (on)
             this.minimaps.add(minimap);
         else

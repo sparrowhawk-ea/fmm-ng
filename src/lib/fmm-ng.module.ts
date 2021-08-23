@@ -4,15 +4,17 @@ import { Subscription } from 'rxjs';
 import {
 	Fmm,
 	FmmElementFactory,
+	FmmForm,
+	FmmFormElementHTML,
+	FmmFormHTML,
 	FmmFramework,
 	FmmMapString,
 	FmmMinimap,
 	FmmMinimapCreateParam,
-	FmmMinimapSnapshot,
 	FmmPanel,
+	FmmSnapshots,
 	FmmStore,
-	FmmStoreItem,
-	FmmWidgetFactory
+	FmmStoreItem
 } from '@eafmm/core';
 
 // =================================================================================================================================
@@ -21,23 +23,23 @@ import {
 @Component({ selector: 'fmm-ng-minimap', template: '' })
 export class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Partial<FmmMinimap> {
 	@Input() public aggregateLabels?: FmmMapString;
-	@Input() public anchor: HTMLElement;
-	@Input() public customWidgetIds: string[];
+	@Input() public anchor: HTMLDivElement;
+	@Input() public customElementIds: string[];
 	@Input() public debounceMsec: number;
 	@Input() public dynamicLabels?: string[];
 	@Input() public formGroup: FormGroup;
 	@Input() public framework: FmmFramework;
 	@Input() public key: string;
 	@Input() public namelessControls: FmmNgNamelessControls;
-	@Input() public page: HTMLElement;
+	@Input() public page: HTMLDivElement;
 	@Input() public panel: FmmNgPanel;
-	@Input() public parent: HTMLElement;
+	@Input() public parent: HTMLDivElement;
 	@Input() public title: string;
 	@Input() public usePanelDetail: boolean;
 	@Input() public useWidthToScale: boolean;
 	@Input() public verbosity = 0;
-	@Input() public widgetFactories?: FmmWidgetFactory[];
-	@Output() public readonly update = new EventEmitter<FmmMinimapSnapshot>();
+	@Input() public zoomFactor: number;
+	@Output() public readonly update = new EventEmitter<FmmSnapshots>();
 	private readonly form: HTMLFormElement;
 
 	private minimap: FmmMinimap;
@@ -66,7 +68,7 @@ export class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Partial<FmmMi
 			this.ngOnInit();
 		} else {
 			this.store.namelessControls = this.namelessControls;
-			this.minimap.compose(this.customWidgetIds);	
+			this.minimap.compose(this.customElementIds);	
 		}
 	}
 
@@ -84,16 +86,15 @@ export class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Partial<FmmMi
 			anchor: this.anchor,
 			debounceMsec: this.debounceMsec,
 			dynamicLabels: this.dynamicLabels,
-			form: this.form,
+			form: new FmmFormHTML(this.form, this.page),
 			framework: this.framework,
-			onUpdate: (snapshot: FmmMinimapSnapshot) => this.update.next(snapshot),
-			page: this.page,
+			onUpdate: (snapshot: FmmSnapshots) => this.update.next(snapshot),
 			store: this.store = new Store(this.formGroup),
 			title: this.title,
 			usePanelDetail: this.usePanelDetail !== undefined,
 			useWidthToScale: this.useWidthToScale !== undefined,
 			verbosity: this.verbosity,
-			widgetFactories: this.widgetFactories
+			zoomFactor: this.zoomFactor
 		};
 		this.minimap = this.panel
 			? G.PANELMAP.get(this.panel)?.createMinimap(p)
@@ -113,7 +114,7 @@ export class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Partial<FmmMi
 // =================================================================================================================================
 @Component({ selector: 'fmm-ng-panel', template: '' })
 export class FmmNgPanel implements OnDestroy, OnInit, Partial<FmmPanel> {
-	@Input() public readonly detailParent: HTMLElement;
+	@Input() public readonly detailParent: HTMLDivElement;
 	@Input() public readonly vertical: boolean;
 
 	public readonly ef: FmmElementFactory;
@@ -133,7 +134,7 @@ export class FmmNgPanel implements OnDestroy, OnInit, Partial<FmmPanel> {
 
 	// =============================================================================================================================
 	public ngOnInit(): void {
-		const host = this.hostRef.nativeElement as HTMLElement;
+		const host = this.hostRef.nativeElement as HTMLDivElement;
 		const vertical = this.vertical !== undefined;
 		this.minimapPanel = Fmm.createPanel(host, this.detailParent, vertical, this.ef);
 		G.PANELMAP.set(this, this.minimapPanel);
@@ -279,7 +280,7 @@ class Store implements FmmStore {
 	}
 
 	// =============================================================================================================================
-	public createStoreItem(e: HTMLElement, _: () => FmmStoreItem) {
+	public createStoreItem(_: FmmForm, e: FmmFormElementHTML) {
 		const name = e.getAttribute('name') || e.id;
 		const control = name ? this.namelessControls[name] : undefined;
 		if (control) return new StoreItem(e, this.listener, name, control);
@@ -309,7 +310,27 @@ class Store implements FmmStore {
 	}
 
 	// =============================================================================================================================
-	public notifyMinimap(minimap: FmmMinimap, on: boolean) {
+	public getError(_: FmmForm, item: StoreItem, hasValue: boolean) {
+		return item.getError(hasValue);
+	}
+
+	// =============================================================================================================================
+	public getName(_: FmmForm, item: StoreItem): string {
+		return item.getName();
+	}
+
+	// =============================================================================================================================
+	public getValue(_: FmmForm, item: StoreItem) {
+		return item.getValue();
+	}
+
+	// =============================================================================================================================
+	public isDisabled(_: FmmForm, item: StoreItem) {
+		return item.isDisabled();
+	}
+
+	// =============================================================================================================================
+	public notifyMinimapOnUpdate(minimap: FmmMinimap, on: boolean) {
 		if (on) this.minimaps.add(minimap);
 		else this.minimaps.delete(minimap);
 	}

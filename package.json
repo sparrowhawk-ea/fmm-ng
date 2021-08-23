@@ -43,7 +43,7 @@
   "license": "MIT",
   "name": "@eafmm/ng",
   "peerDependencies": {
-    "@eafmm/core": "2"
+    "@eafmm/core": "3"
   },
   "repository": {
     "type": "git",
@@ -62,5 +62,5 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "version": "npm run format && git add -A src"
   },
-  "version": "2.0.1"
+  "version": "3.0.0"
 }

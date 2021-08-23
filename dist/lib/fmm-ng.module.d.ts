@@ -1,25 +1,25 @@
 import { ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
-import { FmmElementFactory, FmmFramework, FmmMapString, FmmMinimap, FmmMinimapSnapshot, FmmPanel, FmmWidgetFactory } from '@eafmm/core';
+import { FmmElementFactory, FmmFramework, FmmMapString, FmmMinimap, FmmPanel, FmmSnapshots } from '@eafmm/core';
 export declare class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Partial<FmmMinimap> {
     aggregateLabels?: FmmMapString;
-    anchor: HTMLElement;
-    customWidgetIds: string[];
+    anchor: HTMLDivElement;
+    customElementIds: string[];
     debounceMsec: number;
     dynamicLabels?: string[];
     formGroup: FormGroup;
     framework: FmmFramework;
     key: string;
     namelessControls: FmmNgNamelessControls;
-    page: HTMLElement;
+    page: HTMLDivElement;
     panel: FmmNgPanel;
-    parent: HTMLElement;
+    parent: HTMLDivElement;
     title: string;
     usePanelDetail: boolean;
     useWidthToScale: boolean;
     verbosity: number;
-    widgetFactories?: FmmWidgetFactory[];
-    readonly update: EventEmitter<FmmMinimapSnapshot>;
+    zoomFactor: number;
+    readonly update: EventEmitter<FmmSnapshots>;
     private readonly form;
     private minimap;
     private previousKey;
@@ -33,7 +33,7 @@ export declare class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Parti
 }
 export declare class FmmNgPanel implements OnDestroy, OnInit, Partial<FmmPanel> {
     private readonly hostRef;
-    readonly detailParent: HTMLElement;
+    readonly detailParent: HTMLDivElement;
     readonly vertical: boolean;
     readonly ef: FmmElementFactory;
     private minimapPanel;

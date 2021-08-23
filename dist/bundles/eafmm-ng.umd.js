@@ -34,7 +34,7 @@
             }
             else {
                 this.store.namelessControls = this.namelessControls;
-                this.minimap.compose(this.customWidgetIds);
+                this.minimap.compose(this.customElementIds);
             }
         };
         // =============================================================================================================================
@@ -53,16 +53,15 @@
                 anchor: this.anchor,
                 debounceMsec: this.debounceMsec,
                 dynamicLabels: this.dynamicLabels,
-                form: this.form,
+                form: new core$1.FmmFormHTML(this.form, this.page),
                 framework: this.framework,
                 onUpdate: function (snapshot) { return _this.update.next(snapshot); },
-                page: this.page,
                 store: this.store = new Store(this.formGroup),
                 title: this.title,
                 usePanelDetail: this.usePanelDetail !== undefined,
                 useWidthToScale: this.useWidthToScale !== undefined,
                 verbosity: this.verbosity,
-                widgetFactories: this.widgetFactories
+                zoomFactor: this.zoomFactor
             };
             this.minimap = this.panel
                 ? (_a = G.PANELMAP.get(this.panel)) === null || _a === void 0 ? void 0 : _a.createMinimap(p)
@@ -86,7 +85,7 @@
     FmmNgMinimap.propDecorators = {
         aggregateLabels: [{ type: core.Input }],
         anchor: [{ type: core.Input }],
-        customWidgetIds: [{ type: core.Input }],
+        customElementIds: [{ type: core.Input }],
         debounceMsec: [{ type: core.Input }],
         dynamicLabels: [{ type: core.Input }],
         formGroup: [{ type: core.Input }],
@@ -100,7 +99,7 @@
         usePanelDetail: [{ type: core.Input }],
         useWidthToScale: [{ type: core.Input }],
         verbosity: [{ type: core.Input }],
-        widgetFactories: [{ type: core.Input }],
+        zoomFactor: [{ type: core.Input }],
         update: [{ type: core.Output }]
     };
     // =================================================================================================================================
@@ -263,7 +262,7 @@
             this.listener = function () { return _this.minimaps.forEach(function (m) { return m.takeSnapshot(); }); };
         }
         // =============================================================================================================================
-        Store.prototype.createStoreItem = function (e, _) {
+        Store.prototype.createStoreItem = function (_, e) {
             var name = e.getAttribute('name') || e.id;
             var control = name ? this.namelessControls[name] : undefined;
             if (control)
@@ -298,7 +297,23 @@
             return ac ? new StoreItem(e, this.listener, path, ac) : undefined;
         };
         // =============================================================================================================================
-        Store.prototype.notifyMinimap = function (minimap, on) {
+        Store.prototype.getError = function (_, item, hasValue) {
+            return item.getError(hasValue);
+        };
+        // =============================================================================================================================
+        Store.prototype.getName = function (_, item) {
+            return item.getName();
+        };
+        // =============================================================================================================================
+        Store.prototype.getValue = function (_, item) {
+            return item.getValue();
+        };
+        // =============================================================================================================================
+        Store.prototype.isDisabled = function (_, item) {
+            return item.isDisabled();
+        };
+        // =============================================================================================================================
+        Store.prototype.notifyMinimapOnUpdate = function (minimap, on) {
             if (on)
                 this.minimaps.add(minimap);
             else
@@ -542,7 +557,7 @@
                     ar[i] = from[i];
                 }
             }
-        return to.concat(ar || from);
+        return to.concat(ar || Array.prototype.slice.call(from));
     }
     function __await(v) {
         return this instanceof __await ? (this.v = v, this) : new __await(v);

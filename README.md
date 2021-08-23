@@ -67,21 +67,21 @@ Attribute | Type | Required | Description
 --- | --- | :---: | ---
 [aggregateLabels](https://www.npmjs.com/package/@eafmm/core#mcp-aggregatelabels) | [FmmMapString](https://www.npmjs.com/package/@eafmm/core#fmmmapstring)
 [anchor](https://www.npmjs.com/package/@eafmm/core#mcp-anchor) | HTMLElement
-[customWidgetIds](https://www.npmjs.com/package/@eafmm/core#mm-compose-customwidgetids) | string[]
+[customElementIds](https://www.npmjs.com/package/@eafmm/core#mm-compose-customelementids) | string[]
 [debounceMsec](https://www.npmjs.com/package/@eafmm/core#mcp-debouncemsec) | number
 [dynamicLabels](https://www.npmjs.com/package/@eafmm/core#mcp-dynamiclabele) | string[]
 formGroup | FormGroup | | FormGroup that contains the form's controls.
 [framework](https://www.npmjs.com/package/@eafmm/core#mcp-framework) | [FmmFramework](https://www.npmjs.com/package/@eafmm/core#fmmframework)
 key | string | | Minimap is recreated when key changes.  Any previous minimap is detached.
 namelessControls | FmmNgNamelessControls (= Record<string, AbstractControl>) | | Additional FormControls, dentified by their form element's ID or NAME attribute, which may not be discoverable by traversing up the DOM tree and looking up formArrayName, formControlName, or formGroupName attribute on DOM elements.
-[page](https://www.npmjs.com/package/@eafmm/core#mcp-page) | HTMLElement
+[page](https://www.npmjs.com/package/@eafmm/core#fmmform-page) | HTMLElement
 panel | [FmmNgPanel](#fmmngpanel) | &check;
 [parent](https://www.npmjs.com/package/@eafmm/core#pcm-parent) | HTMLElement
 [title](https://www.npmjs.com/package/@eafmm/core#mcp-title) | string | &check;
 [usePanelDetail](https://www.npmjs.com/package/@eafmm/core#mcp-usepaneldetail) | existential
-[useWidthToScale](https://www.npmjs.com/package/@eafmm/core#mcp-usewidthtoscale) | existential
+[useWidthToScale](https://www.npmjs.com/package/@eafmm/core#mcp-usewidthtoscale) | existentialmv fmm
 [verbosity](https://www.npmjs.com/package/@eafmm/core#mcp-verbosity) | number
-[widgetFactories](https://www.npmjs.com/package/@eafmm/core#mcp-widgetfactories) | [FmmWidgetFactory](https://www.npmjs.com/package/@eafmm/core#fmmwidgetfactory)[]
+[zoomFactor](https://www.npmjs.com/package/@eafmm/core#mcp-zoomfactor) | number
 
 Event | Parameter | Description
 --- | --- | ---
