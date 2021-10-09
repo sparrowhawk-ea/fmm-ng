@@ -23,14 +23,14 @@ export const FmmNgMaterial: FmmFramework = {
 class FrameworkItem implements FmmFrameworkItem {
 	private readonly envelope: HTMLElement;
 	private readonly forValidation: HTMLElement;
-	private readonly label: HTMLElement;
+	private readonly label?: HTMLElement;
 
 	// =============================================================================================================================
 	public constructor(e: HTMLElement) {
 		let field = e.parentElement;
 		while (field && field.tagName !== 'MAT-FORM-FIELD') field = field.parentElement;
 		let tag = e;
-		while (tag && !tag.tagName.startsWith('MAT-')) tag = tag.parentElement;
+		while (tag && !tag.tagName.startsWith('MAT-')) tag = tag.parentElement as HTMLElement;
 		if (!field) {
 			this.envelope = this.forValidation = tag || e;
 		} else {
@@ -53,7 +53,7 @@ class FrameworkItem implements FmmFrameworkItem {
 
 	// =============================================================================================================================
 	public getError(_: string, _e: FmmFormElementHTML, _n: FmmFormElementHTML, _v: boolean) {
-		return this.forValidation.querySelector('MAT-ERROR')?.textContent;
+		return this.forValidation.querySelector('MAT-ERROR')?.textContent || '';
 	}
 
 	// =============================================================================================================================
@@ -63,7 +63,7 @@ class FrameworkItem implements FmmFrameworkItem {
 
 	// =============================================================================================================================
 	public getValue(_: string, _e: FmmFormElementHTML, _n: FmmFormElementHTML, _l: string): string {
-		return undefined;
+		return '';
 	}
 }
 
@@ -83,6 +83,6 @@ class FrameworkItemAutoComplete extends FrameworkItem {
 class FrameworkItemSelect extends FrameworkItem {
 	// =============================================================================================================================
 	public getValue(_: string, e: FmmFormElementHTML, _n: FmmFormElementHTML, _l: string) {
-		return e.querySelector('.mat-select-value-text')?.textContent;
+		return e.querySelector('.mat-select-value-text')?.textContent || '';
 	}
 }

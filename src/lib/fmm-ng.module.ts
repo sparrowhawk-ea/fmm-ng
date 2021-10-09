@@ -23,33 +23,33 @@ import {
 @Component({ selector: 'fmm-ng-minimap', template: '' })
 export class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Partial<FmmMinimap> {
 	@Input() public aggregateLabels?: FmmMapString;
-	@Input() public anchor: HTMLDivElement;
-	@Input() public customElementIds: string[];
-	@Input() public debounceMsec: number;
+	@Input() public anchor?: HTMLDivElement;
+	@Input() public customElementIds?: string[];
+	@Input() public debounceMsec?: number;
 	@Input() public dynamicLabels?: string[];
-	@Input() public formGroup: FormGroup;
-	@Input() public framework: FmmFramework;
-	@Input() public key: string;
-	@Input() public namelessControls: FmmNgNamelessControls;
-	@Input() public page: HTMLDivElement;
-	@Input() public panel: FmmNgPanel;
-	@Input() public parent: HTMLDivElement;
-	@Input() public title: string;
-	@Input() public usePanelDetail: boolean;
-	@Input() public useWidthToScale: boolean;
+	@Input() public formGroup?: FormGroup;
+	@Input() public framework?: FmmFramework;
+	@Input() public key = '';
+	@Input() public namelessControls?: FmmNgNamelessControls;
+	@Input() public page?: HTMLDivElement;
+	@Input() public panel?: FmmNgPanel;
+	@Input() public parent?: HTMLDivElement;
+	@Input() public title = '';
+	@Input() public usePanelDetail = false;
+	@Input() public useWidthToScale = false;
 	@Input() public verbosity = 0;
-	@Input() public zoomFactor: number;
+	@Input() public zoomFactor?: number;
 	@Output() public readonly update = new EventEmitter<FmmSnapshots>();
 	private readonly form: HTMLFormElement;
 
-	private minimap: FmmMinimap;
-	private previousKey: string;
-	private store: Store;
+	private minimap?: FmmMinimap;
+	private previousKey = '';
+	private store?: Store;
 
 	// =============================================================================================================================
 	public constructor(hostRef: ElementRef) {
 		let form = hostRef.nativeElement as Element;
-		while (form && form.tagName !== 'FORM') form = form.parentElement;
+		while (form && form.tagName !== 'FORM') form = form.parentElement as HTMLElement;
 		this.form = form as HTMLFormElement;
 	}
 
@@ -66,8 +66,8 @@ export class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Partial<FmmMi
 		if (this.key !== this.previousKey) {
 			this.minimap.destructor();
 			this.ngOnInit();
-		} else {
-			this.store.namelessControls = this.namelessControls;
+		} else if (this.store) {
+			this.store.namelessControls = this.namelessControls || {};
 			this.minimap.compose(this.customElementIds);	
 		}
 	}
@@ -81,6 +81,8 @@ export class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Partial<FmmMi
 
 	// =============================================================================================================================
 	public ngOnInit(): void {
+		const efParent = this.parent || this.anchor;
+		if (!this.formGroup || !efParent) return;
 		const p: FmmMinimapCreateParam = {
 			aggregateLabels: this.aggregateLabels,
 			anchor: this.anchor,
@@ -96,16 +98,17 @@ export class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Partial<FmmMi
 			verbosity: this.verbosity,
 			zoomFactor: this.zoomFactor
 		};
+		if (!this.formGroup || !(this.parent || this.anchor)) return;
 		this.minimap = this.panel
 			? G.PANELMAP.get(this.panel)?.createMinimap(p)
-			: Fmm.createMinimap(p, this.parent, new ElementFactory(this.parent || this.anchor));
+			: Fmm.createMinimap(p, this.parent, new ElementFactory(efParent));
 		this.previousKey = this.key;
 		this.ngOnChanges();
 	}
 
 	// =============================================================================================================================
 	public takeSnapshot(): boolean {
-		return this.minimap?.takeSnapshot();
+		return this.minimap?.takeSnapshot() || false;
 	}
 }
 
@@ -114,11 +117,11 @@ export class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Partial<FmmMi
 // =================================================================================================================================
 @Component({ selector: 'fmm-ng-panel', template: '' })
 export class FmmNgPanel implements OnDestroy, OnInit, Partial<FmmPanel> {
-	@Input() public readonly detailParent: HTMLDivElement;
-	@Input() public readonly vertical: boolean;
+	@Input() public readonly detailParent?: HTMLDivElement;
+	@Input() public readonly vertical = false;
 
 	public readonly ef: FmmElementFactory;
-	private minimapPanel: FmmPanel;
+	private minimapPanel?: FmmPanel;
 
 	// =============================================================================================================================
 	public constructor(private readonly hostRef: ElementRef) {
@@ -127,7 +130,7 @@ export class FmmNgPanel implements OnDestroy, OnInit, Partial<FmmPanel> {
 
 	// =============================================================================================================================
 	public ngOnDestroy(): void {
-		this.minimapPanel.destructor();
+		if (this.minimapPanel) this.minimapPanel.destructor();
 		G.PANELMAP.delete(this);
 		this.minimapPanel = undefined;
 	}
@@ -171,14 +174,14 @@ class ElementFactory implements FmmElementFactory {
 
 	// =============================================================================================================================
 	public constructor(p: Element) {
-		let ngContentAttribute: string; // set attribute on elements to use non-global CSS
+		let ngContentAttribute: string | undefined = undefined; // set attribute on elements to use non-global CSS
 		if (Element.prototype.getAttributeNames !== undefined) {
-			for (; p && !ngContentAttribute; p = p.parentElement) {
+			for (; p && !ngContentAttribute; p = p.parentElement as Element) {
 				const names = p.getAttributeNames();
 				ngContentAttribute = names.find((a: string) => a.startsWith('_ngcontent-'));
 			}
 		} else {
-			for (; p && !ngContentAttribute; p = p.parentElement) {
+			for (; p && !ngContentAttribute; p = p.parentElement as Element) {
 				const names = Array.prototype.map.call(p.attributes, (a: Attr) => a.name) as string[];
 				ngContentAttribute = names.find((a: string) => a.startsWith('_ngcontent-'));
 			}
@@ -215,7 +218,7 @@ const G: {
 //						S T O R E I T E M
 // =================================================================================================================================
 class StoreItem implements FmmStoreItem {
-	private readonly se: HTMLSelectElement;
+	private readonly se?: HTMLSelectElement;
 
 	// =============================================================================================================================
 	public constructor(
@@ -241,7 +244,7 @@ class StoreItem implements FmmStoreItem {
 		const errors = this.control.errors;
 		let keys = errors ? Object.keys(errors) : [];
 		if (hasValue && keys.length) keys = keys.filter(k => k !== 'required'); // IE11 SELECT bug
-		return keys.length ? keys.join(',') : undefined;
+		return keys.length ? keys.join(',') : '';
 	}
 
 	// =============================================================================================================================
@@ -280,14 +283,14 @@ class Store implements FmmStore {
 	}
 
 	// =============================================================================================================================
-	public createStoreItem(_: FmmForm, e: FmmFormElementHTML) {
+	public createStoreItem(_: FmmForm, e: FmmFormElementHTML): FmmStoreItem | undefined {
 		const name = e.getAttribute('name') || e.id;
 		const control = name ? this.namelessControls[name] : undefined;
 		if (control) return new StoreItem(e, this.listener, name, control);
 		let inFormArray = false;
-		let path: string;
+		let path: string | undefined;
 		let fc = e;
-		for (; fc && fc.tagName !== 'FORM'; fc = fc.parentElement) {
+		for (; fc && fc.tagName !== 'FORM'; fc = fc.parentElement as HTMLElement) {
 			path = fc.getAttribute('formcontrolname') || fc.dataset.formcontrolname;
 			if (path) break;
 			inFormArray = fc.dataset.fmminformarray !== undefined;
@@ -305,8 +308,8 @@ class Store implements FmmStore {
 				path = pName;
 			}
 		}
-		const ac = this.formGroup.get(path);
-		return ac ? new StoreItem(e, this.listener, path, ac) : undefined;
+		const ac = path? this.formGroup.get(path): undefined;
+		return path && ac ? new StoreItem(e, this.listener, path, ac) : undefined;
 	}
 
 	// =============================================================================================================================

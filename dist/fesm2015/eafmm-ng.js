@@ -8,8 +8,13 @@ import { FmmFormHTML, Fmm } from '@eafmm/core';
 class FmmNgMinimap {
     // =============================================================================================================================
     constructor(hostRef) {
+        this.key = '';
+        this.title = '';
+        this.usePanelDetail = false;
+        this.useWidthToScale = false;
         this.verbosity = 0;
         this.update = new EventEmitter();
+        this.previousKey = '';
         let form = hostRef.nativeElement;
         while (form && form.tagName !== 'FORM')
             form = form.parentElement;
@@ -30,8 +35,8 @@ class FmmNgMinimap {
             this.minimap.destructor();
             this.ngOnInit();
         }
-        else {
-            this.store.namelessControls = this.namelessControls;
+        else if (this.store) {
+            this.store.namelessControls = this.namelessControls || {};
             this.minimap.compose(this.customElementIds);
         }
     }
@@ -45,6 +50,9 @@ class FmmNgMinimap {
     // =============================================================================================================================
     ngOnInit() {
         var _a;
+        const efParent = this.parent || this.anchor;
+        if (!this.formGroup || !efParent)
+            return;
         const p = {
             aggregateLabels: this.aggregateLabels,
             anchor: this.anchor,
@@ -60,16 +68,18 @@ class FmmNgMinimap {
             verbosity: this.verbosity,
             zoomFactor: this.zoomFactor
         };
+        if (!this.formGroup || !(this.parent || this.anchor))
+            return;
         this.minimap = this.panel
             ? (_a = G.PANELMAP.get(this.panel)) === null || _a === void 0 ? void 0 : _a.createMinimap(p)
-            : Fmm.createMinimap(p, this.parent, new ElementFactory(this.parent || this.anchor));
+            : Fmm.createMinimap(p, this.parent, new ElementFactory(efParent));
         this.previousKey = this.key;
         this.ngOnChanges();
     }
     // =============================================================================================================================
     takeSnapshot() {
         var _a;
-        return (_a = this.minimap) === null || _a === void 0 ? void 0 : _a.takeSnapshot();
+        return ((_a = this.minimap) === null || _a === void 0 ? void 0 : _a.takeSnapshot()) || false;
     }
 }
 FmmNgMinimap.decorators = [
@@ -105,11 +115,13 @@ class FmmNgPanel {
     // =============================================================================================================================
     constructor(hostRef) {
         this.hostRef = hostRef;
+        this.vertical = false;
         this.ef = new ElementFactory(hostRef.nativeElement);
     }
     // =============================================================================================================================
     ngOnDestroy() {
-        this.minimapPanel.destructor();
+        if (this.minimapPanel)
+            this.minimapPanel.destructor();
         G.PANELMAP.delete(this);
         this.minimapPanel = undefined;
     }
@@ -155,7 +167,7 @@ FmmNgModule.decorators = [
 class ElementFactory {
     // =============================================================================================================================
     constructor(p) {
-        let ngContentAttribute; // set attribute on elements to use non-global CSS
+        let ngContentAttribute = undefined; // set attribute on elements to use non-global CSS
         if (Element.prototype.getAttributeNames !== undefined) {
             for (; p && !ngContentAttribute; p = p.parentElement) {
                 const names = p.getAttributeNames();
@@ -215,7 +227,7 @@ class StoreItem {
         let keys = errors ? Object.keys(errors) : [];
         if (hasValue && keys.length)
             keys = keys.filter(k => k !== 'required'); // IE11 SELECT bug
-        return keys.length ? keys.join(',') : undefined;
+        return keys.length ? keys.join(',') : '';
     }
     // =============================================================================================================================
     getName() {
@@ -282,8 +294,8 @@ class Store {
                 path = pName;
             }
         }
-        const ac = this.formGroup.get(path);
-        return ac ? new StoreItem(e, this.listener, path, ac) : undefined;
+        const ac = path ? this.formGroup.get(path) : undefined;
+        return path && ac ? new StoreItem(e, this.listener, path, ac) : undefined;
     }
     // =============================================================================================================================
     getError(_, item, hasValue) {
@@ -360,7 +372,7 @@ class FrameworkItem {
     // =============================================================================================================================
     getError(_, _e, _n, _v) {
         var _a;
-        return (_a = this.forValidation.querySelector('MAT-ERROR')) === null || _a === void 0 ? void 0 : _a.textContent;
+        return ((_a = this.forValidation.querySelector('MAT-ERROR')) === null || _a === void 0 ? void 0 : _a.textContent) || '';
     }
     // =============================================================================================================================
     getLabel(_, _e) {
@@ -368,7 +380,7 @@ class FrameworkItem {
     }
     // =============================================================================================================================
     getValue(_, _e, _n, _l) {
-        return undefined;
+        return '';
     }
 }
 // =================================================================================================================================
@@ -387,7 +399,7 @@ class FrameworkItemSelect extends FrameworkItem {
     // =============================================================================================================================
     getValue(_, e, _n, _l) {
         var _a;
-        return (_a = e.querySelector('.mat-select-value-text')) === null || _a === void 0 ? void 0 : _a.textContent;
+        return ((_a = e.querySelector('.mat-select-value-text')) === null || _a === void 0 ? void 0 : _a.textContent) || '';
     }
 }
 

@@ -22,8 +22,7 @@
 		"outDir": "./dist/out-tsc",
 		"sourceMap": true,
 		"strict": true,
-		"strictNullChecks": false,
-		"target": "es5",
+		"target": "esnext",
 		"paths": {
 			"fmm-ng": ["dist/fmm-ng/fmm-ng", "dist/fmm-ng"]
 		}

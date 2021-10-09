@@ -10,8 +10,13 @@
     var FmmNgMinimap = /** @class */ (function () {
         // =============================================================================================================================
         function FmmNgMinimap(hostRef) {
+            this.key = '';
+            this.title = '';
+            this.usePanelDetail = false;
+            this.useWidthToScale = false;
             this.verbosity = 0;
             this.update = new core.EventEmitter();
+            this.previousKey = '';
             var form = hostRef.nativeElement;
             while (form && form.tagName !== 'FORM')
                 form = form.parentElement;
@@ -32,8 +37,8 @@
                 this.minimap.destructor();
                 this.ngOnInit();
             }
-            else {
-                this.store.namelessControls = this.namelessControls;
+            else if (this.store) {
+                this.store.namelessControls = this.namelessControls || {};
                 this.minimap.compose(this.customElementIds);
             }
         };
@@ -48,6 +53,9 @@
         FmmNgMinimap.prototype.ngOnInit = function () {
             var _this = this;
             var _a;
+            var efParent = this.parent || this.anchor;
+            if (!this.formGroup || !efParent)
+                return;
             var p = {
                 aggregateLabels: this.aggregateLabels,
                 anchor: this.anchor,
@@ -63,16 +71,18 @@
                 verbosity: this.verbosity,
                 zoomFactor: this.zoomFactor
             };
+            if (!this.formGroup || !(this.parent || this.anchor))
+                return;
             this.minimap = this.panel
                 ? (_a = G.PANELMAP.get(this.panel)) === null || _a === void 0 ? void 0 : _a.createMinimap(p)
-                : core$1.Fmm.createMinimap(p, this.parent, new ElementFactory(this.parent || this.anchor));
+                : core$1.Fmm.createMinimap(p, this.parent, new ElementFactory(efParent));
             this.previousKey = this.key;
             this.ngOnChanges();
         };
         // =============================================================================================================================
         FmmNgMinimap.prototype.takeSnapshot = function () {
             var _a;
-            return (_a = this.minimap) === null || _a === void 0 ? void 0 : _a.takeSnapshot();
+            return ((_a = this.minimap) === null || _a === void 0 ? void 0 : _a.takeSnapshot()) || false;
         };
         return FmmNgMinimap;
     }());
@@ -109,11 +119,13 @@
         // =============================================================================================================================
         function FmmNgPanel(hostRef) {
             this.hostRef = hostRef;
+            this.vertical = false;
             this.ef = new ElementFactory(hostRef.nativeElement);
         }
         // =============================================================================================================================
         FmmNgPanel.prototype.ngOnDestroy = function () {
-            this.minimapPanel.destructor();
+            if (this.minimapPanel)
+                this.minimapPanel.destructor();
             G.PANELMAP.delete(this);
             this.minimapPanel = undefined;
         };
@@ -163,7 +175,7 @@
     var ElementFactory = /** @class */ (function () {
         // =============================================================================================================================
         function ElementFactory(p) {
-            var ngContentAttribute; // set attribute on elements to use non-global CSS
+            var ngContentAttribute = undefined; // set attribute on elements to use non-global CSS
             if (Element.prototype.getAttributeNames !== undefined) {
                 for (; p && !ngContentAttribute; p = p.parentElement) {
                     var names = p.getAttributeNames();
@@ -224,7 +236,7 @@
             var keys = errors ? Object.keys(errors) : [];
             if (hasValue && keys.length)
                 keys = keys.filter(function (k) { return k !== 'required'; }); // IE11 SELECT bug
-            return keys.length ? keys.join(',') : undefined;
+            return keys.length ? keys.join(',') : '';
         };
         // =============================================================================================================================
         StoreItem.prototype.getName = function () {
@@ -293,8 +305,8 @@
                     path = pName;
                 }
             }
-            var ac = this.formGroup.get(path);
-            return ac ? new StoreItem(e, this.listener, path, ac) : undefined;
+            var ac = path ? this.formGroup.get(path) : undefined;
+            return path && ac ? new StoreItem(e, this.listener, path, ac) : undefined;
         };
         // =============================================================================================================================
         Store.prototype.getError = function (_, item, hasValue) {
@@ -690,7 +702,7 @@
         // =============================================================================================================================
         FrameworkItem.prototype.getError = function (_, _e, _n, _v) {
             var _a;
-            return (_a = this.forValidation.querySelector('MAT-ERROR')) === null || _a === void 0 ? void 0 : _a.textContent;
+            return ((_a = this.forValidation.querySelector('MAT-ERROR')) === null || _a === void 0 ? void 0 : _a.textContent) || '';
         };
         // =============================================================================================================================
         FrameworkItem.prototype.getLabel = function (_, _e) {
@@ -698,7 +710,7 @@
         };
         // =============================================================================================================================
         FrameworkItem.prototype.getValue = function (_, _e, _n, _l) {
-            return undefined;
+            return '';
         };
         return FrameworkItem;
     }());
@@ -727,7 +739,7 @@
         // =============================================================================================================================
         FrameworkItemSelect.prototype.getValue = function (_, e, _n, _l) {
             var _a;
-            return (_a = e.querySelector('.mat-select-value-text')) === null || _a === void 0 ? void 0 : _a.textContent;
+            return ((_a = e.querySelector('.mat-select-value-text')) === null || _a === void 0 ? void 0 : _a.textContent) || '';
         };
         return FrameworkItemSelect;
     }(FrameworkItem));
