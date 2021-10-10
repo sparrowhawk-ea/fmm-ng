@@ -29,27 +29,28 @@ export class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Partial<FmmMi
 	@Input() public dynamicLabels?: string[];
 	@Input() public formGroup?: FormGroup;
 	@Input() public framework?: FmmFramework;
-	@Input() public key = '';
+	@Input() public key?: string;
 	@Input() public namelessControls?: FmmNgNamelessControls;
+	@Input() public ordinal?: number;
 	@Input() public page?: HTMLDivElement;
 	@Input() public panel?: FmmNgPanel;
-	@Input() public parent?: HTMLDivElement;
 	@Input() public title = '';
-	@Input() public usePanelDetail = false;
-	@Input() public useWidthToScale = false;
+	@Input() public usePanelDetail?: boolean;
+	@Input() public useWidthToScale?: boolean;
 	@Input() public verbosity = 0;
 	@Input() public zoomFactor?: number;
 	@Output() public readonly update = new EventEmitter<FmmSnapshots>();
 	private readonly form: HTMLFormElement;
 
 	private minimap?: FmmMinimap;
-	private previousKey = '';
+	private previousKey?: string;
 	private store?: Store;
 
 	// =============================================================================================================================
 	public constructor(hostRef: ElementRef) {
 		let form = hostRef.nativeElement as Element;
 		while (form && form.tagName !== 'FORM') form = form.parentElement as HTMLElement;
+		if (!form) throw new Error('FmmNgMinimap not created: component must be used within FORM tag');
 		this.form = form as HTMLFormElement;
 	}
 
@@ -68,21 +69,20 @@ export class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Partial<FmmMi
 			this.ngOnInit();
 		} else if (this.store) {
 			this.store.namelessControls = this.namelessControls || {};
-			this.minimap.compose(this.customElementIds);	
+			this.minimap.compose(this.customElementIds);
 		}
 	}
 
 	// =============================================================================================================================
 	public ngOnDestroy(): void {
-		if (!this.minimap) return;
-		this.minimap.detach();
+		if (this.minimap) this.minimap.detach();
 		this.store = undefined;
 	}
 
 	// =============================================================================================================================
 	public ngOnInit(): void {
-		const efParent = this.parent || this.anchor;
-		if (!this.formGroup || !efParent) return;
+		if (!this.formGroup) throw new Error('FmmNgMinimap not created: formGroup required');
+		if (!this.store) this.store = new Store(this.formGroup);
 		const p: FmmMinimapCreateParam = {
 			aggregateLabels: this.aggregateLabels,
 			anchor: this.anchor,
@@ -91,17 +91,20 @@ export class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Partial<FmmMi
 			form: new FmmFormHTML(this.form, this.page),
 			framework: this.framework,
 			onUpdate: (snapshot: FmmSnapshots) => this.update.next(snapshot),
-			store: this.store = new Store(this.formGroup),
+			ordinal: this.ordinal,
+			store: this.store,
 			title: this.title,
 			usePanelDetail: this.usePanelDetail !== undefined,
 			useWidthToScale: this.useWidthToScale !== undefined,
 			verbosity: this.verbosity,
 			zoomFactor: this.zoomFactor
 		};
-		if (!this.formGroup || !(this.parent || this.anchor)) return;
-		this.minimap = this.panel
-			? G.PANELMAP.get(this.panel)?.createMinimap(p)
-			: Fmm.createMinimap(p, this.parent, new ElementFactory(efParent));
+		if (this.panel) {
+			this.minimap = G.PANELMAP.get(this.panel)?.createMinimap(p);
+		} else if (p.anchor) {
+			this.minimap = Fmm.createMinimap(p, new ElementFactory(p.anchor as Element));
+		}
+		if (!this.minimap) throw new Error('FmmNgMinimap not created: panel, parent, or anchor required');
 		this.previousKey = this.key;
 		this.ngOnChanges();
 	}
@@ -118,7 +121,8 @@ export class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Partial<FmmMi
 @Component({ selector: 'fmm-ng-panel', template: '' })
 export class FmmNgPanel implements OnDestroy, OnInit, Partial<FmmPanel> {
 	@Input() public readonly detailParent?: HTMLDivElement;
-	@Input() public readonly vertical = false;
+	@Input() public readonly minimapsCount = 1;
+	@Input() public readonly vertical?: boolean;
 
 	public readonly ef: FmmElementFactory;
 	private minimapPanel?: FmmPanel;
@@ -139,7 +143,7 @@ export class FmmNgPanel implements OnDestroy, OnInit, Partial<FmmPanel> {
 	public ngOnInit(): void {
 		const host = this.hostRef.nativeElement as HTMLDivElement;
 		const vertical = this.vertical !== undefined;
-		this.minimapPanel = Fmm.createPanel(host, this.detailParent, vertical, this.ef);
+		this.minimapPanel = Fmm.createPanel(host, this.minimapsCount, this.detailParent, vertical, this.ef);
 		G.PANELMAP.set(this, this.minimapPanel);
 	}
 
@@ -153,7 +157,7 @@ export class FmmNgPanel implements OnDestroy, OnInit, Partial<FmmPanel> {
 //						F M M N G M O D U L E
 // =================================================================================================================================
 @NgModule({ declarations: [FmmNgMinimap, FmmNgPanel], exports: [FmmNgMinimap, FmmNgPanel] })
-export class FmmNgModule {}
+export class FmmNgModule { }
 
 // =================================================================================================================================
 //						F M M N G N A M E L E S S C O N T R O L S
@@ -296,7 +300,7 @@ class Store implements FmmStore {
 			inFormArray = fc.dataset.fmminformarray !== undefined;
 			if (inFormArray) break;
 		}
-		for (let p = fc?.parentElement; p && p.tagName !== 'FORM'; p = p.parentElement) {
+		for (let p = fc?.parentElement; path && p && p.tagName !== 'FORM'; p = p.parentElement) {
 			let pName = p.getAttribute('formarrayname');
 			if (!pName) {
 				pName = p.getAttribute('formgroupname');
@@ -308,7 +312,7 @@ class Store implements FmmStore {
 				path = pName;
 			}
 		}
-		const ac = path? this.formGroup.get(path): undefined;
+		const ac = path ? this.formGroup.get(path) : undefined;
 		return path && ac ? new StoreItem(e, this.listener, path, ac) : undefined;
 	}
 

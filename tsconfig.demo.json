@@ -1,0 +1,24 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+	"compileOnSave": false,
+	"compilerOptions": {
+		"baseUrl": "./",
+		"declaration": false,
+		"downlevelIteration": true,
+		"esModuleInterop": true,
+		"experimentalDecorators": true,
+		"importHelpers": true,
+		"inlineSources": true,
+		"isolatedModules": true,
+		"lib": ["es2018", "dom"],
+		"module": "es2020",
+		"moduleResolution": "node",
+		"outDir": "./demo",
+		"sourceMap": true,
+		"strict": true,
+		"target": "esnext",
+		"types": []
+	},
+	"files": ["src/demo/main.ts", "src/demo/polyfills.ts"],
+	"include": ["src/**/*.d.ts"]
+}

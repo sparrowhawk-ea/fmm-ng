@@ -9,20 +9,20 @@ export declare class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Parti
     dynamicLabels?: string[];
     formGroup?: FormGroup;
     framework?: FmmFramework;
-    key: string;
+    key?: string;
     namelessControls?: FmmNgNamelessControls;
+    ordinal?: number;
     page?: HTMLDivElement;
     panel?: FmmNgPanel;
-    parent?: HTMLDivElement;
     title: string;
-    usePanelDetail: boolean;
-    useWidthToScale: boolean;
+    usePanelDetail?: boolean;
+    useWidthToScale?: boolean;
     verbosity: number;
     zoomFactor?: number;
     readonly update: EventEmitter<FmmSnapshots>;
     private readonly form;
     private minimap?;
-    private previousKey;
+    private previousKey?;
     private store?;
     constructor(hostRef: ElementRef);
     destructor(): void;
@@ -34,7 +34,8 @@ export declare class FmmNgMinimap implements OnChanges, OnDestroy, OnInit, Parti
 export declare class FmmNgPanel implements OnDestroy, OnInit, Partial<FmmPanel> {
     private readonly hostRef;
     readonly detailParent?: HTMLDivElement;
-    readonly vertical = false;
+    readonly minimapsCount = 1;
+    readonly vertical?: boolean;
     readonly ef: FmmElementFactory;
     private minimapPanel?;
     constructor(hostRef: ElementRef);

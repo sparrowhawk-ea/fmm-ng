@@ -5,7 +5,7 @@
   },
   "description": "Form Minimap Angular",
   "files": [
-    "**"
+    "dist"
   ],
   "homepage": "https://github.com/sparrowhawk-ea/fmm-ng#readme",
   "keywords": [
@@ -16,13 +16,13 @@
   "license": "MIT",
   "name": "@eafmm/ng",
   "peerDependencies": {
-    "@eafmm/core": "3"
+    "@eafmm/core": "4"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sparrowhawk-ea/fmm-ng.git"
   },
-  "version": "3.0.0",
+  "version": "4.0.0",
   "main": "bundles/eafmm-ng.umd.js",
   "module": "fesm2015/eafmm-ng.js",
   "es2015": "fesm2015/eafmm-ng.js",

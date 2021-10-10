@@ -1,8 +1,8 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs'), require('@eafmm/core')) :
     typeof define === 'function' && define.amd ? define('@eafmm/ng', ['exports', '@angular/core', 'rxjs', '@eafmm/core'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.eafmm = global.eafmm || {}, global.eafmm.ng = {}), global.ng.core, global.rxjs, global['@eafmm/core']));
-}(this, (function (exports, core, rxjs, core$1) { 'use strict';
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.eafmm = global.eafmm || {}, global.eafmm.ng = {}), global.ng.core, global.rxjs, global["@eafmm/core"]));
+})(this, (function (exports, core, rxjs, core$1) { 'use strict';
 
     // =================================================================================================================================
     //						F M M N G M I N I M A P
@@ -10,16 +10,14 @@
     var FmmNgMinimap = /** @class */ (function () {
         // =============================================================================================================================
         function FmmNgMinimap(hostRef) {
-            this.key = '';
             this.title = '';
-            this.usePanelDetail = false;
-            this.useWidthToScale = false;
             this.verbosity = 0;
             this.update = new core.EventEmitter();
-            this.previousKey = '';
             var form = hostRef.nativeElement;
             while (form && form.tagName !== 'FORM')
                 form = form.parentElement;
+            if (!form)
+                throw new Error('FmmNgMinimap not created: component must be used within FORM tag');
             this.form = form;
         }
         // =============================================================================================================================
@@ -44,18 +42,18 @@
         };
         // =============================================================================================================================
         FmmNgMinimap.prototype.ngOnDestroy = function () {
-            if (!this.minimap)
-                return;
-            this.minimap.detach();
+            if (this.minimap)
+                this.minimap.detach();
             this.store = undefined;
         };
         // =============================================================================================================================
         FmmNgMinimap.prototype.ngOnInit = function () {
             var _this = this;
             var _a;
-            var efParent = this.parent || this.anchor;
-            if (!this.formGroup || !efParent)
-                return;
+            if (!this.formGroup)
+                throw new Error('FmmNgMinimap not created: formGroup required');
+            if (!this.store)
+                this.store = new Store(this.formGroup);
             var p = {
                 aggregateLabels: this.aggregateLabels,
                 anchor: this.anchor,
@@ -64,18 +62,22 @@
                 form: new core$1.FmmFormHTML(this.form, this.page),
                 framework: this.framework,
                 onUpdate: function (snapshot) { return _this.update.next(snapshot); },
-                store: this.store = new Store(this.formGroup),
+                ordinal: this.ordinal,
+                store: this.store,
                 title: this.title,
                 usePanelDetail: this.usePanelDetail !== undefined,
                 useWidthToScale: this.useWidthToScale !== undefined,
                 verbosity: this.verbosity,
                 zoomFactor: this.zoomFactor
             };
-            if (!this.formGroup || !(this.parent || this.anchor))
-                return;
-            this.minimap = this.panel
-                ? (_a = G.PANELMAP.get(this.panel)) === null || _a === void 0 ? void 0 : _a.createMinimap(p)
-                : core$1.Fmm.createMinimap(p, this.parent, new ElementFactory(efParent));
+            if (this.panel) {
+                this.minimap = (_a = G.PANELMAP.get(this.panel)) === null || _a === void 0 ? void 0 : _a.createMinimap(p);
+            }
+            else if (p.anchor) {
+                this.minimap = core$1.Fmm.createMinimap(p, new ElementFactory(p.anchor));
+            }
+            if (!this.minimap)
+                throw new Error('FmmNgMinimap not created: panel, parent, or anchor required');
             this.previousKey = this.key;
             this.ngOnChanges();
         };
@@ -102,9 +104,9 @@
         framework: [{ type: core.Input }],
         key: [{ type: core.Input }],
         namelessControls: [{ type: core.Input }],
+        ordinal: [{ type: core.Input }],
         page: [{ type: core.Input }],
         panel: [{ type: core.Input }],
-        parent: [{ type: core.Input }],
         title: [{ type: core.Input }],
         usePanelDetail: [{ type: core.Input }],
         useWidthToScale: [{ type: core.Input }],
@@ -119,7 +121,7 @@
         // =============================================================================================================================
         function FmmNgPanel(hostRef) {
             this.hostRef = hostRef;
-            this.vertical = false;
+            this.minimapsCount = 1;
             this.ef = new ElementFactory(hostRef.nativeElement);
         }
         // =============================================================================================================================
@@ -133,7 +135,7 @@
         FmmNgPanel.prototype.ngOnInit = function () {
             var host = this.hostRef.nativeElement;
             var vertical = this.vertical !== undefined;
-            this.minimapPanel = core$1.Fmm.createPanel(host, this.detailParent, vertical, this.ef);
+            this.minimapPanel = core$1.Fmm.createPanel(host, this.minimapsCount, this.detailParent, vertical, this.ef);
             G.PANELMAP.set(this, this.minimapPanel);
         };
         // =============================================================================================================================
@@ -151,6 +153,7 @@
     ]; };
     FmmNgPanel.propDecorators = {
         detailParent: [{ type: core.Input }],
+        minimapsCount: [{ type: core.Input }],
         vertical: [{ type: core.Input }]
     };
     // =================================================================================================================================
@@ -290,7 +293,7 @@
                 if (inFormArray)
                     break;
             }
-            for (var p = fc === null || fc === void 0 ? void 0 : fc.parentElement; p && p.tagName !== 'FORM'; p = p.parentElement) {
+            for (var p = fc === null || fc === void 0 ? void 0 : fc.parentElement; path && p && p.tagName !== 'FORM'; p = p.parentElement) {
                 var pName = p.getAttribute('formarrayname');
                 if (!pName) {
                     pName = p.getAttribute('formgroupname');
@@ -755,5 +758,5 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=eafmm-ng.umd.js.map

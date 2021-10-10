@@ -1,26 +1,88 @@
 {
 	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-	"version": 1,
+	"defaultProject": "fmm-ng",
 	"projects": {
 		"fmm-ng": {
-			"projectType": "library",
-			"root": "./",
-			"sourceRoot": "./src",
-			"prefix": "lib",
 			"architect": {
 				"build": {
 					"builder": "@angular-devkit/build-angular:ng-packagr",
-					"options": {
-						"tsConfig": "./tsconfig.json",
-						"project": "./ng-package.json"
-					},
 					"configurations": {
 						"production": {
 							"tsConfig": "./tsconfig.json"
 						}
+					},
+					"options": {
+						"project": "./ng-package.json",
+						"tsConfig": "./tsconfig.json"
 					}
 				}
-			}
+			},
+			"prefix": "lib",
+			"projectType": "library",
+			"root": "./",
+			"sourceRoot": "./src"
+		},
+		"fmm-ng-demo": {
+			"architect": {
+				"build": {
+					"builder": "@angular-devkit/build-angular:browser",
+					"configurations": {
+						"production": {
+							"budgets": [
+								{
+									"maximumError": "5mb",
+									"maximumWarning": "2mb",
+									"type": "initial"
+								},
+								{
+									"maximumError": "200kb",
+									"maximumWarning": "150kb",
+									"type": "anyComponentStyle"
+								}
+							],
+							"buildOptimizer": true,
+							"extractLicenses": true,
+							"namedChunks": false,
+							"optimization": true,
+							"outputHashing": "all",
+							"sourceMap": false,
+							"vendorChunk": false
+						}
+					},
+					"options": {
+						"aot": true,
+						"index": "src/demo/index.html",
+						"main": "src/demo/main.ts",
+						"outputPath": "./demo",
+						"polyfills": "src/demo/polyfills.ts",
+						"scripts": [],
+						"styles": ["src/demo/styles.scss"],
+						"tsConfig": "tsconfig.demo.json"
+					}
+				},
+				"serve": {
+					"builder": "@angular-devkit/build-angular:dev-server",
+					"options": {
+						"browserTarget": "fmm-ng-demo:build"
+					},
+					"configurations": {
+						"production": {
+							"browserTarget": "fmm-ng-demo:build:production"
+						}
+					}
+				},
+				"extract-i18n": {
+					"builder": "@angular-devkit/build-angular:extract-i18n",
+					"options": {
+						"browserTarget": "fmm-ng-demo:build"
+					}
+				}
+			},
+			"prefix": "demo",
+			"projectType": "application",
+			"root": "./",
+			"sourceRoot": "./src"
 		}
-	}
+	},
+	"version": 1
 }

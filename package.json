@@ -7,19 +7,25 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "12",
     "@angular/animations": "12",
+		"@angular/cdk": "12",
     "@angular/cli": "12",
     "@angular/common": "12",
     "@angular/compiler": "12",
     "@angular/compiler-cli": "12",
     "@angular/core": "12",
     "@angular/forms": "12",
+		"@angular/material": "12",
     "@angular/platform-browser": "12",
     "@angular/platform-browser-dynamic": "12",
     "@angular/router": "12",
+		"@eafmm/demo": "*",
     "@types/eslint": "*",
     "@types/estree": "*",
     "@typescript-eslint/eslint-plugin": "*",
     "@typescript-eslint/parser": "*",
+		"bootstrap": "4",
+		"classlist.js": "*",
+		"core-js": "*",
     "eslint": "*",
     "eslint-config-prettier": "*",
     "eslint-plugin-prettier": "*",
@@ -27,12 +33,11 @@
     "prettier": "*",
     "rxjs": "*",
     "ts-node": "*",
-    "tslib": "*",
     "typescript": "*",
     "zone.js": "*"
   },
   "files": [
-    "**"
+    "dist"
   ],
   "homepage": "https://github.com/sparrowhawk-ea/fmm-ng#readme",
   "keywords": [
@@ -43,7 +48,7 @@
   "license": "MIT",
   "name": "@eafmm/ng",
   "peerDependencies": {
-    "@eafmm/core": "3"
+    "@eafmm/core": "4"
   },
 	"prettier": {
 		"arrowParens": "avoid",
@@ -60,17 +65,11 @@
     "url": "git+https://github.com/sparrowhawk-ea/fmm-ng.git"
   },
   "scripts": {
-    "build": "ng build --configuration production",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "build": "rm -rf demo dist && npm run lint && ng build --configuration production && ng build fmm-ng-demo --configuration production",
     "lint": "eslint --report-unused-disable-directives --ext .ts .",
-    "postversion": "git push && git push --tags",
-    "prebuild": "rm -rf dist",
     "prepack": "echo \"Error: run cd dist && npm publish --access public\" && exit 1",
     "prepare": "npm run build",
-    "prepublishOnly": "npm run lint",
-    "preversion": "npm run lint",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "version": "npm run format && git add -A src"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "3.0.0"
+  "version": "4.0.0"
 }
