@@ -763,7 +763,7 @@ export class MaterialComponent extends BaseComponent implements AfterViewInit {
 		this.addShadowFormItem(fb, 'quoteRadios');
 		const adventures = Object.entries(Ea.adventures).map(([k, v]) => [k, v.toLowerCase()]);
 		this.matchingAdventures = adventureAuto.valueChanges.pipe(
-			startWith(''),
+			startWith<string, string[]>(''),
 			map((val: string) => val?.toLowerCase()),
 			map((val: string) => (val ? adventures.filter(([_k, v]) => v.startsWith(val)) : []))
 		);
@@ -773,7 +773,7 @@ export class MaterialComponent extends BaseComponent implements AfterViewInit {
 	// =============================================================================================================================
 	public chipsChanged(): void {
 		const chips = this.chipList?.selected;
-		const selected = Array.isArray(chips) ? chips.map(c => c.value as string) : [chips?.value];
+		const selected = Array.isArray(chips) ? chips.map(c => c.value as string) : [chips?.value as string];
 		this.chipListAsBooleanArray = super.mapUseNamesToBooleanArray(selected);
 	}
 

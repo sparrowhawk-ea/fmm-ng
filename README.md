@@ -3,7 +3,7 @@ Angular module with components for [Form Minimap](https://www.npmjs.com/package/
 Please consult that documentation for further information on the concepts mentioned below.
 Please note that all boolean attributes are existential (value ignored) rather than having a boolean value.
 
-[Demo Appplication](https://sparrowhawk-ea.github.io/fmm-ng/demo/)
+[Demo Appplication](https://sparrowhawk-ea.github.io/fmm-ng/)
 
 ***
 # Getting Started

@@ -22,16 +22,28 @@
     "type": "git",
     "url": "git+https://github.com/sparrowhawk-ea/fmm-ng.git"
   },
-  "version": "4.0.0",
-  "main": "bundles/eafmm-ng.umd.js",
-  "module": "fesm2015/eafmm-ng.js",
-  "es2015": "fesm2015/eafmm-ng.js",
-  "esm2015": "esm2015/eafmm-ng.js",
-  "fesm2015": "fesm2015/eafmm-ng.js",
+  "version": "4.0.1",
+  "module": "fesm2015/eafmm-ng.mjs",
+  "es2020": "fesm2020/eafmm-ng.mjs",
+  "esm2020": "esm2020/eafmm-ng.mjs",
+  "fesm2020": "fesm2020/eafmm-ng.mjs",
+  "fesm2015": "fesm2015/eafmm-ng.mjs",
   "typings": "eafmm-ng.d.ts",
-  "metadata": "eafmm-ng.metadata.json",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./eafmm-ng.d.ts",
+      "esm2020": "./esm2020/eafmm-ng.mjs",
+      "es2020": "./fesm2020/eafmm-ng.mjs",
+      "es2015": "./fesm2015/eafmm-ng.mjs",
+      "node": "./fesm2015/eafmm-ng.mjs",
+      "default": "./fesm2020/eafmm-ng.mjs"
+    }
+  },
   "sideEffects": false,
   "dependencies": {
-    "tslib": "^2.2.0"
+    "tslib": "^2.3.0"
   }
 }

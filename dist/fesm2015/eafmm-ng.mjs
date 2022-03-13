@@ -1,4 +1,5 @@
-import { EventEmitter, Component, ElementRef, Input, Output, NgModule } from '@angular/core';
+import * as i0 from '@angular/core';
+import { EventEmitter, Component, Input, Output, NgModule } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FmmFormHTML, Fmm } from '@eafmm/core';
 
@@ -84,32 +85,48 @@ class FmmNgMinimap {
         return ((_a = this.minimap) === null || _a === void 0 ? void 0 : _a.takeSnapshot()) || false;
     }
 }
-FmmNgMinimap.decorators = [
-    { type: Component, args: [{ selector: 'fmm-ng-minimap', template: '' },] }
-];
-FmmNgMinimap.ctorParameters = () => [
-    { type: ElementRef }
-];
-FmmNgMinimap.propDecorators = {
-    aggregateLabels: [{ type: Input }],
-    anchor: [{ type: Input }],
-    customElementIds: [{ type: Input }],
-    debounceMsec: [{ type: Input }],
-    dynamicLabels: [{ type: Input }],
-    formGroup: [{ type: Input }],
-    framework: [{ type: Input }],
-    key: [{ type: Input }],
-    namelessControls: [{ type: Input }],
-    ordinal: [{ type: Input }],
-    page: [{ type: Input }],
-    panel: [{ type: Input }],
-    title: [{ type: Input }],
-    usePanelDetail: [{ type: Input }],
-    useWidthToScale: [{ type: Input }],
-    verbosity: [{ type: Input }],
-    zoomFactor: [{ type: Input }],
-    update: [{ type: Output }]
-};
+FmmNgMinimap.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.2.6", ngImport: i0, type: FmmNgMinimap, deps: [{ token: i0.ElementRef }], target: i0.ɵɵFactoryTarget.Component });
+FmmNgMinimap.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "13.2.6", type: FmmNgMinimap, selector: "fmm-ng-minimap", inputs: { aggregateLabels: "aggregateLabels", anchor: "anchor", customElementIds: "customElementIds", debounceMsec: "debounceMsec", dynamicLabels: "dynamicLabels", formGroup: "formGroup", framework: "framework", key: "key", namelessControls: "namelessControls", ordinal: "ordinal", page: "page", panel: "panel", title: "title", usePanelDetail: "usePanelDetail", useWidthToScale: "useWidthToScale", verbosity: "verbosity", zoomFactor: "zoomFactor" }, outputs: { update: "update" }, usesOnChanges: true, ngImport: i0, template: '', isInline: true });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.2.6", ngImport: i0, type: FmmNgMinimap, decorators: [{
+            type: Component,
+            args: [{ selector: 'fmm-ng-minimap', template: '' }]
+        }], ctorParameters: function () { return [{ type: i0.ElementRef }]; }, propDecorators: { aggregateLabels: [{
+                type: Input
+            }], anchor: [{
+                type: Input
+            }], customElementIds: [{
+                type: Input
+            }], debounceMsec: [{
+                type: Input
+            }], dynamicLabels: [{
+                type: Input
+            }], formGroup: [{
+                type: Input
+            }], framework: [{
+                type: Input
+            }], key: [{
+                type: Input
+            }], namelessControls: [{
+                type: Input
+            }], ordinal: [{
+                type: Input
+            }], page: [{
+                type: Input
+            }], panel: [{
+                type: Input
+            }], title: [{
+                type: Input
+            }], usePanelDetail: [{
+                type: Input
+            }], useWidthToScale: [{
+                type: Input
+            }], verbosity: [{
+                type: Input
+            }], zoomFactor: [{
+                type: Input
+            }], update: [{
+                type: Output
+            }] } });
 // =================================================================================================================================
 //						F M M N G P A N E L
 // =================================================================================================================================
@@ -140,25 +157,30 @@ class FmmNgPanel {
         return (_a = this.minimapPanel) === null || _a === void 0 ? void 0 : _a.destroyDetached();
     }
 }
-FmmNgPanel.decorators = [
-    { type: Component, args: [{ selector: 'fmm-ng-panel', template: '' },] }
-];
-FmmNgPanel.ctorParameters = () => [
-    { type: ElementRef }
-];
-FmmNgPanel.propDecorators = {
-    detailParent: [{ type: Input }],
-    minimapsCount: [{ type: Input }],
-    vertical: [{ type: Input }]
-};
+FmmNgPanel.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.2.6", ngImport: i0, type: FmmNgPanel, deps: [{ token: i0.ElementRef }], target: i0.ɵɵFactoryTarget.Component });
+FmmNgPanel.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "13.2.6", type: FmmNgPanel, selector: "fmm-ng-panel", inputs: { detailParent: "detailParent", minimapsCount: "minimapsCount", vertical: "vertical" }, ngImport: i0, template: '', isInline: true });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.2.6", ngImport: i0, type: FmmNgPanel, decorators: [{
+            type: Component,
+            args: [{ selector: 'fmm-ng-panel', template: '' }]
+        }], ctorParameters: function () { return [{ type: i0.ElementRef }]; }, propDecorators: { detailParent: [{
+                type: Input
+            }], minimapsCount: [{
+                type: Input
+            }], vertical: [{
+                type: Input
+            }] } });
 // =================================================================================================================================
 //						F M M N G M O D U L E
 // =================================================================================================================================
 class FmmNgModule {
 }
-FmmNgModule.decorators = [
-    { type: NgModule, args: [{ declarations: [FmmNgMinimap, FmmNgPanel], exports: [FmmNgMinimap, FmmNgPanel] },] }
-];
+FmmNgModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.2.6", ngImport: i0, type: FmmNgModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+FmmNgModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "13.2.6", ngImport: i0, type: FmmNgModule, declarations: [FmmNgMinimap, FmmNgPanel], exports: [FmmNgMinimap, FmmNgPanel] });
+FmmNgModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "13.2.6", ngImport: i0, type: FmmNgModule });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.2.6", ngImport: i0, type: FmmNgModule, decorators: [{
+            type: NgModule,
+            args: [{ declarations: [FmmNgMinimap, FmmNgPanel], exports: [FmmNgMinimap, FmmNgPanel] }]
+        }] });
 // =================================================================================================================================
 // =================================================================================================================================
 // =================================================	P R I V A T E	============================================================
@@ -262,8 +284,8 @@ class Store {
     constructor(formGroup) {
         this.formGroup = formGroup;
         this.namelessControls = {};
-        this.minimaps = new Set();
         this.listener = () => this.minimaps.forEach(m => m.takeSnapshot());
+        this.minimaps = new Set();
     }
     // =============================================================================================================================
     createStoreItem(_, e) {
@@ -411,4 +433,4 @@ class FrameworkItemSelect extends FrameworkItem {
  */
 
 export { FmmNgMaterial, FmmNgMinimap, FmmNgModule, FmmNgPanel };
-//# sourceMappingURL=eafmm-ng.js.map
+//# sourceMappingURL=eafmm-ng.mjs.map

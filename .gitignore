@@ -1,5 +1,6 @@
 node_modules/
 *.tsbuildinfo
+.angular
 .eslintcache
 .npm
 .vscode/

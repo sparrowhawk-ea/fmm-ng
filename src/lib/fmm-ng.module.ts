@@ -227,7 +227,7 @@ class StoreItem implements FmmStoreItem {
 	// =============================================================================================================================
 	public constructor(
 		e: HTMLElement,
-		listener: EventListener,
+		listener: () => void,
 		private readonly name: string,
 		private readonly control: AbstractControl
 	) {
@@ -278,13 +278,11 @@ class StoreItem implements FmmStoreItem {
 // =================================================================================================================================
 class Store implements FmmStore {
 	public namelessControls: FmmNgNamelessControls = {};
-	private readonly listener: EventListener;
+	private readonly listener = () => this.minimaps.forEach(m => m.takeSnapshot());
 	private readonly minimaps: Set<FmmMinimap> = new Set();
 
 	// =============================================================================================================================
-	public constructor(private readonly formGroup: FormGroup) {
-		this.listener = () => this.minimaps.forEach(m => m.takeSnapshot());
-	}
+	public constructor(private readonly formGroup: FormGroup) {}
 
 	// =============================================================================================================================
 	public createStoreItem(_: FmmForm, e: FmmFormElementHTML): FmmStoreItem | undefined {
